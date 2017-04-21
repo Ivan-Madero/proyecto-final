@@ -38,7 +38,7 @@ el comando `$crontab -e`, se almacena en
 ```
 Se puede configurar que usuarios tiene privilegios para poder usar cron,
 hay dos formas posibles:
-- Con una lista blanca, **/etc/cron.allow**, donde solo los usuarios
+- Con una lista blanca, /etc/cron.allow, donde solo los usuarios
 indicados podran usar cron.
 - O con una lista negra, donde todos menos los usuarios indicados podran 
 usar cron.
@@ -50,11 +50,13 @@ archivo **/etc/crontab** o escribir diferentes archivos en el directorio
 el que se ejecutará el programa.
 
 Archivos y directorios que incluye el paquete `cron`.
+
 ```
 # ls /etc/cron
 cron.d/       cron.deny     cron.monthly/ cron.weekly/  
 cron.daily/   cron.hourly/  crontab       
 ```
+
 
 #### Atd
 
