@@ -57,6 +57,15 @@ cron.d/       cron.deny     cron.monthly/ cron.weekly/
 cron.daily/   cron.hourly/  crontab       
 ```
 
+##### Formato crontab
+
+Abreviaciones:
+- **@yearly**: Una vez por año (1 de Enero a las 00:00)
+- **@monthly**: Una vez por mes (1r día del mes a las 00:00)
+- **@weekly**: Una vez por semana (Domingo a las 00:00)
+- **@daily**: Una vez por dia (a las 00:00)
+- **@hourly**: Una vez por hora (al principio de cada hora)
+
 
 #### Atd
 
