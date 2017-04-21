@@ -59,14 +59,6 @@ cron.daily/   cron.hourly/  crontab
 
 ##### Formato crontab
 
-Abreviaciones:
-- **@yearly**: Una vez por año (1 de Enero a las 00:00)
-- **@monthly**: Una vez por mes (1r día del mes a las 00:00)
-- **@weekly**: Una vez por semana (Domingo a las 00:00)
-- **@daily**: Una vez por dia (a las 00:00)
-- **@hourly**: Una vez por hora (al principio de cada hora)
-- **@reboot**: Justo después de iniciar el equipo
-
 ```
 # Archivo crontab / formato
 # min  hora  dia  mes  dds  programa
@@ -86,6 +78,24 @@ Abreviaciones:
 
 # Hacer algo después de cada reinicio
 @reboot  /bin/hacealgo
+```
+
+Campos:
+- el valor del minuto (0 a 59)
+- el valor de la hora (0 a 23)
+- el valor del dia del mes (1 a 31)
+- el valor del mes (1 a 12)
+- 
+-
+-
+
+Abreviaciones:
+- **@yearly**: Una vez por año (1 de Enero a las 00:00)
+- **@monthly**: Una vez por mes (1r día del mes a las 00:00)
+- **@weekly**: Una vez por semana (Domingo a las 00:00)
+- **@daily**: Una vez por dia (a las 00:00)
+- **@hourly**: Una vez por hora (al principio de cada hora)
+- **@reboot**: Justo después de iniciar el equipo
 ```
 
 
