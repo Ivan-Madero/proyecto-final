@@ -65,6 +65,28 @@ Abreviaciones:
 - **@weekly**: Una vez por semana (Domingo a las 00:00)
 - **@daily**: Una vez por dia (a las 00:00)
 - **@hourly**: Una vez por hora (al principio de cada hora)
+- **@reboot**: Justo después de iniciar el equipo
+
+```
+# Archivo crontab / formato
+# min  hora  dia  mes  dds  programa
+
+# Ejemplos
+# Hace algo todas las noches a las 22:30
+30  20  *  *  *  /bin/hacealgo
+
+# Hace algo de Lunes a Viernes a las 08:00
+00  08  *  *  1-5  /bin/hacealgo
+
+# Hacer algo el Lunes, Miercoles y Viernes a las 12:30
+30  12  *  *  1,3,5  /bin/hacealgo
+
+# Hacer algo los dias pares a las 09:00
+00  09  */2  *  *  /bin/hacealgo
+
+# Hacer algo después de cada reinicio
+@reboot  /bin/hacealgo
+```
 
 
 #### Atd
