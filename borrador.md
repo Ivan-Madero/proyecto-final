@@ -114,7 +114,7 @@ privilegios de uso de los usurios que tiene `Cron` ( **/etc/at.deny** ;
 
 ##### Formato atd
 
-´´´
+```
 $ at [hora] [fecha]
 at> orden1
 at> orden2
@@ -126,7 +126,7 @@ at> echo "algo" >> /tmp/algo.txt
 
 $ at 00:01 01.01.2018		# Se ejecutará el 1 de Enero del 2018 a las 10.
 at > echo "Feliz Año Nuevo" >> /dev/tty1
-´´´
+```
 
 - **Hora**: La hora se puede indicar en diferentes formatos; **HH:MM**, 
 **HHMM**, **HH.MM**, **HH,MM**, **Hpm**, **Ham**, **midnight**(00:00), 
