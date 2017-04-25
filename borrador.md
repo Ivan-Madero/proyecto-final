@@ -96,8 +96,6 @@ Abreviaciones:
 - **@daily**: Una vez por dia (a las 00:00)
 - **@hourly**: Una vez por hora (al principio de cada hora)
 - **@reboot**: Justo después de iniciar el equipo
-```
-
 
 #### Atd
 
