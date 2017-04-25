@@ -61,7 +61,7 @@ cron.daily/   cron.hourly/  crontab
 
 ```
 # Archivo crontab / formato
-# min  hora  dia  mes  dds  programa
+# min  hora  dia  mes  dds [usuario] programa
 
 # Ejemplos
 # Hace algo todas las noches a las 22:30
@@ -85,9 +85,10 @@ Campos:
 - el valor de la hora (0 a 23)
 - el valor del dia del mes (1 a 31)
 - el valor del mes (1 a 12)
-- 
--
--
+- el valor de los días de la semana ( 0 a 7 [domingo = 0/7, lunes = 1, 
+etc.]; Sun, Mon, etc. )
+- el nombre de usuario bajo el que se ejecutará el programa
+- el programa a ejecutar
 
 Abreviaciones:
 - **@yearly**: Una vez por año (1 de Enero a las 00:00)
