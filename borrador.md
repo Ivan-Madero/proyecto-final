@@ -19,11 +19,11 @@ configuraciones.
 
 ## Cron y atd
 
-Cron :
+**Cron** :
 Es la herramienta encargada de ejecutar tareas programadas y recurrentes
 (todos los dias, todas las semanas, etc.).
 
-Atd :
+**Atd** :
 Es la herramienta encargada que ejecuta una sola vez en un momento 
 especifico un programa concreto.
 
