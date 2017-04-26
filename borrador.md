@@ -139,4 +139,44 @@ semana ( **monday**, **sunday**, etc. ).
 
 ## Substituit el protocolo SMTP por Journal en Cron
 
+`Cron` por defecto usa el protocolo SMTP para generar el log de los
+resultados de sus tareas programadas. Creo que este sistema es un poco 
+anticuado y debe actualizarse, para ello redirigiremos la salida de sus
+resultados a Journal, y finalmente para adecuarlo a un entorno de trabajo
+centralizaremos el log de diferentes host en uno solo.
+
+### Configurar el OUTPUT de Cron en Journal
+
+En las anteriores versiones de `Cron` se redirigia el output al syslog 
+mediante el uso de `logger`.
+
+```
+# Ejemplo tradicional de redirección del output al syslog
+*/2 * * * * echo $USER 2>&1 >> /tmp/date.log | logger
+```
+
+Actualmente en las versiones actuales de `Cron` este esta preparado para
+que el **daemon** pueda ser configurado para redirigir el output a
+syslog, sigue sin conocer la existencia del `Journal`, pero como este
+escucha por el puerto que lo hacia syslog cara a los programas es como
+si lo siguieran haciendo. La configuración necesaria actual es muy
+simple.
+
+Modificaremos el fichero **/etc/sysconfig/crond**, este contiene la
+configuracion de `Cron Daemon`.
+En el argumento `CRONDARGS=` añadiremos la opción **-s** para que la
+salida se redirija al syslog y añadiremso **-m off** para deshabilitar
+la salida por mail. Tras modificar el archivo reiniciaremos el servicio
+del `Cron`.
+
+```
+[root@hostname ~]# vim /etc/sysconfig/crond
+
+# Settings for the CRON daemon.
+# CRONDARGS= :  any extra command-line startup arguments for crond
+CRONDARGS= -s -m off
+
+[root@hostname ~]# systemctl restart crond.service
+```
+
 ## Substituir Cron por Systemd.timers
