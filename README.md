@@ -19,8 +19,8 @@ configuraciones.
 
 1. [Cron y atd](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#cron-y-atd)\
 	1.1. [Archivos de configuración](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#archivos-de-configuración)\
-		1.1.1. [Cron](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#cron)\
-		1.1.2. [At](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#atd)
+	\	1.1.1. [Cron](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#cron)\
+	\	1.1.2. [At](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#atd)
 2. [Substituit el protocolo SMTP por Journal en Cron](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#substituit-el-protocolo-smtp-por-journal-en-cron)\
 	2.1. [Configurar el output de cron en journal](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#configurar-el-output-de-cron-en-journal)
 3. [Substituir Cron por Systemd.timers](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#substituir-cron-por-systemdtimers)
