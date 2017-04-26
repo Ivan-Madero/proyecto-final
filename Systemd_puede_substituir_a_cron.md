@@ -162,4 +162,12 @@ CRONDARGS= -s -m off
 [root@hostname ~]# systemctl restart crond.service
 ```
 
+### Centralizar los logs
+
+Una vez realizada la tarea de configurar el **output** de `Cron` al 
+`Journal`, toca configurar las maquinas para un entorno de trabajo
+adequado, con esto me refiero a centralizar los logs del `Journal` en
+un solo host de la red, para facilitar al administrador el trabajo de
+administrar la red.
+
 ## Substituir Cron por Systemd.timers
