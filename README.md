@@ -18,4 +18,4 @@ configuraciones.
 ## Tabla de contenidos
 
 1. [Cron y atd](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#cron-y-atd)
-  1. [Archivos de configuración](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#archivos-de-configuración)
+  1.1. [Archivos de configuración](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#archivos-de-configuración)
