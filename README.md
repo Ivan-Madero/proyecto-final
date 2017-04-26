@@ -21,5 +21,6 @@ configuraciones.
 	1.1. [Cron](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#cron)\
 	1.2. [At](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#atd)
 2. [Substituit el protocolo SMTP por Journal en Cron](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#substituit-el-protocolo-smtp-por-journal-en-cron)\
-	2.1. [Configurar el output de cron en journal](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#configurar-el-output-de-cron-en-journal)
+	2.1. [Configurar el output de cron en journal](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#configurar-el-output-de-cron-en-journal)\
+	2.2. [Centralizar los logs](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#centralizar-los-logs)
 3. [Substituir Cron por Systemd.timers](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#substituir-cron-por-systemdtimers)
