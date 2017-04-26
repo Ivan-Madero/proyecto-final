@@ -14,3 +14,8 @@ que configuración es necesaria para substiruir el protocolo `SMTP` por
 `journal` centralizando los **logs** en un solo host de la red. Para 
 apoyar a la documentación elaboraremos un conjunto de dockers con dichas
 configuraciones. 
+
+## Tabla de contenidos
+
+1. [Cron y atd](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#cron-y-atd)
+1. [Archivos de configuración](https://github.com/Ivan-Madero/proyecto-final/blob/master/borrador.md#archivos-de-configuración)
