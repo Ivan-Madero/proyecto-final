@@ -1,8 +1,8 @@
 # Systemd puede substituir a cron?
 
-**Autor**: Ivan Madero Fernandez
-**Fecha de creación**: 18/04/2017
-**Curso**: 2º de ASX  
+**Autor**: Ivan Madero Fernandez\
+**Fecha de creación**: 18/04/2017\
+**Curso**: 2º de ASX\
 
 ## Introducción
 
