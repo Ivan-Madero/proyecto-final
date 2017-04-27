@@ -1,5 +1,9 @@
 # Systemd puede substituir a cron?
 
+**Autor**: Ivan Madero Fernandez
+**Fecha de creación**: 18/04/2017
+**Curso**: 2º de ASX  
+
 ## Introducción
 
 Veremos el funcionamiento de las herramientas `Crond` y `atd`, como
