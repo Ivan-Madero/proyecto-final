@@ -171,3 +171,24 @@ un solo host de la red, para facilitar al administrador el trabajo de
 administrar la red.
 
 ## Substituir Cron por Systemd.timers
+`Systemd.timers` son unos temporizadores bajo el control de `Systemd`,
+estos pueden sustituir el uso de `Cron`. Sus archivos de configuración
+terminan en **.timer** y controlan los archivos o eventos de **.service**.
+Los temporizadores tienen soporte incorporado para eventos de tiempo de
+calendario, eventos de tiempo monótonos y se puede ejecutar de forma 
+asíncrona.
+
+Como cualquier tecnologia tiene sus ventajas y desventajas:\
+**Ventajas**
+- Se pueden iniciar fácilmente independientemente de los temporizadores.
+- Se pueden configurar para ejecutarse en un entorno especifico.
+- Se pueden adjuntar trabajos a **cgroups**.
+- Se pueden configurar para depender de otras unidades `Systemd`.
+- Los trabajos se registran en el diario de `Systemd` para facilitat la
+depuración.
+
+**Desventajas**
+- Algunas cosas que son fáciles con `Cron` son muy complejas con 
+`Systemd`.
+- Complejidad: Se deben configurar 2 ficheros, **.timers** y **.service**.
+- No hay equivalentes incorporados a MAILTO de `Cron`.
