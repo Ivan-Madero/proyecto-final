@@ -170,6 +170,10 @@ adequado, con esto me refiero a centralizar los logs del `Journal` en
 un solo host de la red, para facilitar al administrador el trabajo de
 administrar la red.
 
+#### Configuración Servidor
+
+#### Configuración Cliente
+
 ## Substituir Cron por Systemd.timers
 `Systemd.timers` son unos temporizadores bajo el control de `Systemd`,
 estos pueden sustituir el uso de `Cron`. Sus archivos de configuración
