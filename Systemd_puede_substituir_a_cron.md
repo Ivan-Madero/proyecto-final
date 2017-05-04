@@ -274,7 +274,7 @@ en estado fallido.
 esta unidad.
 
 Para mas información recomiendo consultar el `man 5 systemd.unit` o 
-[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BUnit%5D%20Section%20Options)
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BUnit%5D%20Section%20Options).
 
 #### \[Timer\]
 
@@ -304,3 +304,6 @@ separada por espacios.
 lista separada por espacios.
 - **Also=** Lista de las unidades adicionales que se instalaran/desintalaran
 juntamente con esta unidad.
+
+Para mas información recomiendo consultar el `man 5 systemd.unit` o 
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BInstall%5D%20Section%20Options).
