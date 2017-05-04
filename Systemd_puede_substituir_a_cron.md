@@ -278,6 +278,13 @@ Para mas información recomiendo consultar el `man 5 systemd.unit` o
 
 #### \[Timer\]
 
+Los archivos **.timer** deben contener el apartado \[Timer\] que define
+las configuraciones de los temporizadores, esto tienen unos elementos
+especificos, algunos de esto son:
+
+Para mas información consulte el `man sytemd.timer` o 
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.timer.html#Options).
+
 #### \[Install\]
 
 Los archivos de unidades pueden incluir este apartado, que contiene 
