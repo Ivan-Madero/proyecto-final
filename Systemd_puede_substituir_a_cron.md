@@ -279,3 +279,21 @@ Para mas información recomiendo consultar el `man 5 systemd.unit` o
 #### \[Timer\]
 
 #### \[Install\]
+
+Los archivos de unidades pueden incluir este apartado, que contiene 
+información de la instalación de la unidad. Esta sección no es 
+interpretada por `Systemd` durante el tiempo de ejecución, es 
+interpretada al usarse los comandos **# systemctl enable/disbale**.
+
+La lista de elementos que puede contener este apartado es el siguiente:
+- **Alias=** Una lista separada por espacios de los nombres que tendra
+la unidad al instalarse. No compatible con las unidades de tipo: mount, 
+slice, swap y automount. 
+- **WantedBy=** Se creara un enlace simbolico de la unidad en los .wants
+especificados, puede aparecer mas de una vez o contener una lista 
+separada por espacios.
+- **RequiredBy=** Se creara un enlace simbolico de la unidad en los 
+.requires especificados, puede aparecer mas de una vez o contener una 
+lista separada por espacios.
+- **Also=** Lista de las unidades adicionales que se instalaran/desintalaran
+juntamente con esta unidad.
