@@ -27,3 +27,7 @@ de apoyo a la documentación que podemos obtener del `man`.
 [Debian](https://debian-handbook.info/browse/es-ES/stable/sect.task-scheduling-cron-atd.html)\
 Documentación en castellano sobre `Cron` y `At` para reforzar la comprensión
 del `man`.
+
+Principalmente las webs anteriormente nombradas me han ayudado a 
+encaminar el camino a seguir para obtener el objetivo del proyecto, pero
+principalmente me he apoyado en el `man`. 
