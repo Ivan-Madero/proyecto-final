@@ -250,3 +250,6 @@ WantedBy=basic.target
 Como observar este temporizador pertenece al ejemplo mostrado del fichero
 **.service**. En este se indica que se ejecutará por primera vez a los
 10min desde que la maquina fue arrancada, y posteriormente cada 60min (1h).
+
+Los ficheros **.timer** se componen de tres partes \[Unit\], \[Timer\] y
+\[Install\]. 
