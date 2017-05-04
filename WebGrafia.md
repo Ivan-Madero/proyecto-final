@@ -2,7 +2,7 @@
 
 ## WebGrafia
 
-Lista de webs de la cual hemos obtenido o consultado información útil 
+Lista de webs de la cual he obtenido o consultado información útil 
 para el desarollo del proyecto final.
 
 [Freedesktop](https://www.freedesktop.org/software/systemd/man/)\
