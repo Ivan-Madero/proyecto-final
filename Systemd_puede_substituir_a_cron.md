@@ -253,3 +253,9 @@ Como observar este temporizador pertenece al ejemplo mostrado del fichero
 
 Los ficheros **.timer** se componen de tres partes \[Unit\], \[Timer\] y
 \[Install\]. 
+
+#### \[Unit\]
+
+#### \[Timer\]
+
+#### \[Install\]
