@@ -120,7 +120,7 @@ at > echo "Feliz Año Nuevo" >> /dev/tty1
 ( mes dia año: **june 17 2018** ), **today**, **tomorrow**, dias de la
 semana ( **monday**, **sunday**, etc. ). 
 
-## Substituit el protocolo SMTP por Journal en Cron
+## Substituir el protocolo SMTP por Journal en Cron
 
 `Cron` por defecto usa el protocolo SMTP para generar el log de los
 resultados de sus tareas programadas. Creo que este sistema es un poco 
@@ -175,6 +175,7 @@ administrar la red.
 #### Configuración Cliente
 
 ## Substituir Cron por Systemd.timers
+
 `Systemd.timers` son unos temporizadores bajo el control de `Systemd`,
 estos pueden sustituir el uso de `Cron`. Sus archivos de configuración
 terminan en **.timer** y controlan los archivos o eventos de **.service**.
