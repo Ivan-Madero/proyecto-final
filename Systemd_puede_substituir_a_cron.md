@@ -197,3 +197,56 @@ depuración.
 `Systemd`.
 - Complejidad: Se deben configurar 2 ficheros, **.timers** y **.service**.
 - No hay equivalentes incorporados a MAILTO de `Cron`.
+
+Para poder configurar las tareas que realizamos en `Cron` con `Systemd`
+debemos aprender a definir los archivos **.service** y los **.timer**. 
+
+### Archivos .service
+
+Crearemos estos fichero en el directorio: **/etc/systemd/system/**.
+
+```
+# Ejemplo de fichero .service
+
+[user@hostname system]# cat /usr/lib/systemd/system/dnf-makecache.service
+ 
+[Unit]
+Description=dnf makecache
+
+[Service]
+Type=oneshot
+Nice=19
+IOSchedulingClass=2
+IOSchedulingPriority=7
+Environment="ABRT_IGNORE_PYTHON=1"
+ExecStart=/usr/bin/dnf makecache timer
+```
+
+El anterior ejemplo es un archivo por defecto del sistema, ejecuta la
+orden **/usr/bin/dnf** con los argumentos *makecache* y *timer*, y es de
+tipo "oneshot", esto quiere decir que se ejecutará y una vez finalizada
+la acción se detendrá.
+
+### Archivos .timer
+
+```
+# Ejemplo de fichero .timer
+
+[user@hostname system]# cat /usr/lib/systemd/system/dnf-makecache.timer
+
+[Unit]
+Description=dnf makecache timer
+ConditionKernelCommandLine=!rd.live.image
+
+[Timer]
+OnBootSec=10min
+OnUnitInactiveSec=1h
+Unit=dnf-makecache.service
+
+[Install]
+WantedBy=basic.target
+```
+
+Como observar este temporizador pertenece al ejemplo mostrado del fichero
+**.service**. En este se indica que se ejecutará por primera vez a los
+10min desde que la maquina fue arrancada, y posteriormente cada 60min (1h).
