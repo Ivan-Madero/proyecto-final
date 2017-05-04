@@ -256,6 +256,22 @@ Los ficheros **.timer** se componen de tres partes \[Unit\], \[Timer\] y
 
 #### \[Unit\]
 
+Contiene información genérica sobre la unidad independientemente del 
+tipo de unidad que sea.
+
+Algunos elementos que pueden definirse en este apartado son:
+- **Description=** Una cadena de texto que describe la unidad, la
+descripción debe contener un nombre que signifique algo para el usuario
+final. Ej. "Apache2 Web Server" es un buen ejemplo, no es demasiado 
+genérico y tampoco demasiado especifico.
+- **Documentation=**
+- **OnFailure=**
+- **SourcePath=**
+- **Requires=**
+
+Para mas información recomiendo consultar el `man 5 systemd.unit` o 
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BUnit%5D%20Section%20Options)
+
 #### \[Timer\]
 
 #### \[Install\]
