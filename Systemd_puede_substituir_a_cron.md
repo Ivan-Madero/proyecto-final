@@ -264,10 +264,14 @@ Algunos elementos que pueden definirse en este apartado son:
 descripción debe contener un nombre que signifique algo para el usuario
 final. Ej. "Apache2 Web Server" es un buen ejemplo, no es demasiado 
 genérico y tampoco demasiado especifico.
-- **Documentation=**
-- **OnFailure=**
-- **SourcePath=**
-- **Requires=**
+- **Documentation=** Una lista de URLs separados por espacios 
+referenciando la documentación o la configuración de la unidad.
+- **Requires=** Configura dependencias de otras unidades, si estas no 
+estan activadas la unidad no podra activarse.
+- **OnFailure=** Lista de unidades que se activaran cuando esta entre
+en estado fallido.
+- **SourcePath=** Una ruta de acceso a un archivo de configuración de 
+esta unidad.
 
 Para mas información recomiendo consultar el `man 5 systemd.unit` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BUnit%5D%20Section%20Options)
