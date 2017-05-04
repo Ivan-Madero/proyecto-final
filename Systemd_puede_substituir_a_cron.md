@@ -282,6 +282,17 @@ Los archivos **.timer** deben contener el apartado \[Timer\] que define
 las configuraciones de los temporizadores, esto tienen unos elementos
 especificos, algunos de esto son:
 
+- **OnActiveSec=** 
+- **OnBootSec=** 
+- **OnStartupSec=** 
+- **OnUnitActiveSec=** 
+- **OnUnitInactiveSec=** 
+- **OnCalendar=** 
+- **AccuracySec=** 
+- **Unit=** 
+- **Persistent=**
+- **WakeSystem=** 
+
 Para mas información consulte el `man sytemd.timer` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.timer.html#Options).
 
