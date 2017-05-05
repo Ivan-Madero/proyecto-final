@@ -371,3 +371,50 @@ Para mas información consulte el `man sytemd.timer` o
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.timer.html#Options).
 
 ### Transformar tareas de Cron a Systemd
+
+Para poder transformar una tarea definida por `Cron` a `Systemd` debemos
+analizar la tarea y dividarla en que tiene que hacer y cuando lo debe 
+hacer. Lo que debe hacer se tendrá que definir en un fichero de unidad
+de tipo **.service**, mientras que, el cuando lo debe hacer, debe
+definirse en un fichero de unidad tipo **.timer**. A continuación
+expondré algunos ejemplos:
+
+#### Ejemplo1
+
+En este primer ejemplo obaservaremos un caso muy simple, un `echo` que
+cada 2 min escribe en un fichero que se encuentra en **/tmp/date.log**,
+una linea con la fecha y hora, el usuario y la palabra cron. Esta tarea
+esta configurada en el personal de un usuario, usaremos el comando 
+`crontab -e` para editarlo.
+
+**Cron**
+
+```
+[user@hostname ~]# crontab -e
+*/2 * * * * /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
+```
+
+Para hacer la conversion de `Cron` a `Systemd` crearemos dos ficheros en
+**/etc/systemd/system/**, con el nombre de **echo_date.service** y 
+**echo_date.timer**.
+
+**Systemd**
+
+```
+File: /etc/systemd/system/echo_date.service
+# Servicio creado para sustituir la tarea en Cron con la siguiente 
+# sintaxis:
+# */2 * * * * /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
+#
+
+[Unit]
+[Service]
+
+///////////////////////////////////////////////////////////////////////
+
+File: /etc/systemd/system/echo_date.timer
+# Temporizador para ejecutarla cada 2 min
+
+[Unit]
+[Timer]
+```
