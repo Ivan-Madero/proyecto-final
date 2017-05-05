@@ -266,7 +266,8 @@ inicia este servicio.
 - **ExecStop=** Comandos a ejecutar para detener el servicio iniciado.
 - **Type=** Configura el tipo de arranque del proceso para esta unidad 
 de servicio. `simple`, `forking`, `oneshot`, `dbus`, `notify` o `idle`.
-- **TimeoutSec=** 
+- **TimeoutSec=** Una abreviatura para configurar `TimeoutStartSec=` y 
+`TimeoutStopSec=` con el valor especificado.
 - **Restart=** Configura si el servicio se reiniciará cuando se cierre 
 el proceso de servicio, se muera o se alcance un tiempo de espera.
 - **SuccessExitStatus=** Toma una lista de las definiciones de estado de 
