@@ -227,32 +227,8 @@ orden **/usr/bin/dnf** con los argumentos *makecache* y *timer*, y es de
 tipo "oneshot", esto quiere decir que se ejecutará y una vez finalizada
 la acción se detendrá.
 
-### Archivos .timer
-
-```
-# Ejemplo de fichero .timer
-
-[user@hostname system]# cat /usr/lib/systemd/system/dnf-makecache.timer
-
-[Unit]
-Description=dnf makecache timer
-ConditionKernelCommandLine=!rd.live.image
-
-[Timer]
-OnBootSec=10min
-OnUnitInactiveSec=1h
-Unit=dnf-makecache.service
-
-[Install]
-WantedBy=basic.target
-```
-
-Como observar este temporizador pertenece al ejemplo mostrado del fichero
-**.service**. En este se indica que se ejecutará por primera vez a los
-10min desde que la maquina fue arrancada, y posteriormente cada 60min (1h).
-
-Los ficheros **.timer** se componen de tres partes \[Unit\], \[Timer\] y
-\[Install\]. 
+Los ficheros de las unidades de tipo **.service** se componen de tres 
+apartados: \[Unit\], \[Service\] y \[Install\].
 
 #### \[Unit\]
 
@@ -276,25 +252,9 @@ esta unidad.
 Para mas información recomiendo consultar el `man 5 systemd.unit` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BUnit%5D%20Section%20Options).
 
-#### \[Timer\]
+#### \[Service\]
 
-Los archivos **.timer** deben contener el apartado \[Timer\] que define
-las configuraciones de los temporizadores, esto tienen unos elementos
-especificos, algunos de esto son:
 
-- **OnActiveSec=** 
-- **OnBootSec=** 
-- **OnStartupSec=** 
-- **OnUnitActiveSec=** 
-- **OnUnitInactiveSec=** 
-- **OnCalendar=** 
-- **AccuracySec=** 
-- **Unit=** 
-- **Persistent=**
-- **WakeSystem=** 
-
-Para mas información consulte el `man sytemd.timer` o 
-[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.timer.html#Options).
 
 #### \[Install\]
 
@@ -318,3 +278,71 @@ juntamente con esta unidad.
 
 Para mas información recomiendo consultar el `man 5 systemd.unit` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BInstall%5D%20Section%20Options).
+
+### Archivos .timer
+
+Crearemos estos fichero en el directorio: **/etc/systemd/system/**.
+
+```
+# Ejemplo de fichero .timer
+
+[user@hostname system]# cat /usr/lib/systemd/system/dnf-makecache.timer
+
+[Unit]
+Description=dnf makecache timer
+ConditionKernelCommandLine=!rd.live.image
+
+[Timer]
+OnBootSec=10min
+OnUnitInactiveSec=1h
+Unit=dnf-makecache.service
+
+[Install]
+WantedBy=basic.target
+```
+
+Como observar este temporizador pertenece al ejemplo mostrado del fichero
+**.service**. En este se indica que se ejecutará por primera vez a los
+10min desde que la maquina fue arrancada, y posteriormente cada 60min (1h).
+
+Los ficheros **.timer** se componen de tres apartados \[Unit\], \[Timer\] y
+\[Install\].
+
+#### \[Timer\]
+
+Los archivos **.timer** deben contener el apartado \[Timer\] que define
+las configuraciones de los temporizadores, esto tienen unos elementos
+especificos, algunos de esto son:
+
+- **OnActiveSec=** Define un tiempo en relación con el momento en que se
+activa el temporizador; `# systemctl start .timer`.
+- **OnBootSec=** Define un tiempo en relación a cuando la maquina 
+arranca.
+- **OnStartupSec=** Define un tiempo en relación a la primera vez que se
+arranco systemd.
+- **OnUnitActiveSec=** Define un tiempo en relación a la ultima vez que 
+se activo.
+- **OnUnitInactiveSec=** Define un tiempo en relación a la ultima vez en
+que se desactivo.
+- **OnCalendar=** Define temporizadores en tiempo real con expresiones
+de eventos de calendario. Para mas información sombre la sintaxis
+consultar el `man 7 systemd.time`o [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.time.html)
+- **AccuracySec=** Define el tiempo en el que debe transcurir, el tiempo
+que permanecera encendido.
+- **Unit=** La unidad se activará cuando transcurra este temporizador,
+la unidad no puede ser **.timer**, si no se especifica la unidad, este
+valor pretederminado es un servicio que tiene el mismo nombre de la
+unidad del temporizador.
+- **Persistent=** Es una valor booleano, si este es `true` cuando se 
+active el temporizador si el tiempo de activación ya ha transcurrido se 
+ejecutara immediatamente. Al usar `OnCalendar=` el valor por defecto es 
+`false`.
+- **WakeSystem=** Toma un argumento booleano. Si es cierto, un 
+temporizador transcurrido hará que el sistema reanude su suspensión, 
+si se suspende y si el sistema lo admite. El valor por defecto es 
+`false`.
+
+Para mas información consulte el `man sytemd.timer` o 
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.timer.html#Options).
+
+### Transformar tareas de Cron a Systemd
