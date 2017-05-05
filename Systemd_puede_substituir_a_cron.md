@@ -254,7 +254,21 @@ Para mas información recomiendo consultar el `man 5 systemd.unit` o
 
 #### \[Service\]
 
+Este apartado es especifico de los achivos de unidades **.service**. Y 
+puede contener algunos de los siguientes elementos:
+- **ExecStart=** 
+- **ExecStartPre=** 
+- **ExecStartPost=**
+- **ExecReload=** 
+- **ExecStop=** 
+- **Type=** 
+- **TimeoutSec=** 
+- **Restart=** 
+- **SuccessExitStatus=** 
+- **FailureAction=** 
 
+Para mas información recomiendo consultar el `man systemd.service` o 
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options).
 
 #### \[Install\]
 
@@ -305,14 +319,14 @@ Como observar este temporizador pertenece al ejemplo mostrado del fichero
 **.service**. En este se indica que se ejecutará por primera vez a los
 10min desde que la maquina fue arrancada, y posteriormente cada 60min (1h).
 
-Los ficheros **.timer** se componen de tres apartados \[Unit\], \[Timer\] y
-\[Install\].
+Los ficheros de unidades de tipo **.timer** se componen de tres 
+apartados \[Unit\], \[Timer\] y \[Install\].
 
 #### \[Timer\]
 
-Los archivos **.timer** deben contener el apartado \[Timer\] que define
-las configuraciones de los temporizadores, esto tienen unos elementos
-especificos, algunos de esto son:
+Los archivos de unidades de tipo **.timer** deben contener el apartado 
+\[Timer\] que define las configuraciones de los temporizadores, esto 
+tienen unos elementos especificos, algunos de esto son:
 
 - **OnActiveSec=** Define un tiempo en relación con el momento en que se
 activa el temporizador; `# systemctl start .timer`.
@@ -326,7 +340,8 @@ se activo.
 que se desactivo.
 - **OnCalendar=** Define temporizadores en tiempo real con expresiones
 de eventos de calendario. Para mas información sombre la sintaxis
-consultar el `man 7 systemd.time`o [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.time.html)
+consultar el `man 7 systemd.time`o 
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.time.html)
 - **AccuracySec=** Define el tiempo en el que debe transcurir, el tiempo
 que permanecera encendido.
 - **Unit=** La unidad se activará cuando transcurra este temporizador,
