@@ -256,16 +256,25 @@ Para mas información recomiendo consultar el `man 5 systemd.unit` o
 
 Este apartado es especifico de los achivos de unidades **.service**. Y 
 puede contener algunos de los siguientes elementos:
-- **ExecStart=** 
-- **ExecStartPre=** 
-- **ExecStartPost=**
-- **ExecReload=** 
-- **ExecStop=** 
-- **Type=** 
+- **ExecStart=** Comandos con sus argumentos que se ejecutan cuando se 
+inicia este servicio.
+- **ExecStartPre=** Comando adicional que se ejecutará antes del 
+`ExecStart=`.
+- **ExecStartPost=** Comando adicional que se ejecutará después del 
+`ExecStart=`.
+- **ExecReload=** Comando que se ejecutará cuando se realize un reload.
+- **ExecStop=** Comandos a ejecutar para detener el servicio iniciado.
+- **Type=** Configura el tipo de arranque del proceso para esta unidad 
+de servicio. `simple`, `forking`, `oneshot`, `dbus`, `notify` o `idle`.
 - **TimeoutSec=** 
-- **Restart=** 
-- **SuccessExitStatus=** 
-- **FailureAction=** 
+- **Restart=** Configura si el servicio se reiniciará cuando se cierre 
+el proceso de servicio, se muera o se alcance un tiempo de espera.
+- **SuccessExitStatus=** Toma una lista de las definiciones de estado de 
+salida que, cuando son devueltas por el proceso de servicio principal, 
+se considerarán terminación exitosa, además del código de salida normal 
+exitoso 0 y las señales SIGHUP, SIGINT, SIGTERM y SIGPIPE. 
+- **FailureAction=** Configura la acción a realizar cuando el servicio 
+entra en un estado fallido. 
 
 Para mas información recomiendo consultar el `man systemd.service` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options).
@@ -275,7 +284,7 @@ Para mas información recomiendo consultar el `man systemd.service` o
 Los archivos de unidades pueden incluir este apartado, que contiene 
 información de la instalación de la unidad. Esta sección no es 
 interpretada por `Systemd` durante el tiempo de ejecución, es 
-interpretada al usarse los comandos **# systemctl enable/disbale**.
+interpretada al usarse los comandos `# systemctl enable/disbale`.
 
 La lista de elementos que puede contener este apartado es el siguiente:
 - **Alias=** Una lista separada por espacios de los nombres que tendra
