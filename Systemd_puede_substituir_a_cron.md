@@ -408,7 +408,11 @@ File: /etc/systemd/system/echo_date.service
 #
 
 [Unit]
+Description=Insertar fecha y usuario en un fichero en tmp.
+
 [Service]
+Type=oneshot
+ExecStart=/usr/bin/sh -c '/usr/bin/echo "$(/usr/bin/date) - $USER - Systemd" >> /tmp/date.log'
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -416,5 +420,19 @@ File: /etc/systemd/system/echo_date.timer
 # Temporizador para ejecutarla cada 2 min
 
 [Unit]
+Description=Temporizador de echo_date cada 2 min.
+
 [Timer]
+OnBootSec=2min
+OnUnitActiveSec=2min
+Unit=echo_date.service
+
+[Install]
+WantedBy=basic.target
 ```
+
+Como podemos observar siempre que tengamos que redirigir la salida a un 
+fichero o expandir un $, deberemos llamar a un shell para que realize 
+esta tarea.
+
+#### Ejemplo2
