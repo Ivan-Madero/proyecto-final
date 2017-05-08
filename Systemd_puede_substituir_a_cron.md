@@ -435,4 +435,22 @@ Como podemos observar siempre que tengamos que redirigir la salida a un
 fichero o expandir un $, deberemos llamar a un shell para que realize 
 esta tarea.
 
+**Resultado**
+
+```
+[user@hostname ~]# tail -f /tmp/date.log
+Mon May  8 12:26:02 CEST 2017 - root - Cron
+Mon May  8 12:26:32 CEST 2017 -  - Systemd
+Mon May  8 12:28:01 CEST 2017 - root - Cron
+Mon May  8 12:28:33 CEST 2017 -  - Systemd
+Mon May  8 12:30:01 CEST 2017 - root - Cron
+Mon May  8 12:30:33 CEST 2017 -  - Systemd
+Mon May  8 12:32:01 CEST 2017 - root - Cron
+Mon May  8 12:32:33 CEST 2017 -  - Systemd
+Mon May  8 12:34:01 CEST 2017 - root - Cron
+Mon May  8 12:34:33 CEST 2017 -  - Systemd
+Mon May  8 12:36:01 CEST 2017 - root - Cron
+Mon May  8 12:36:33 CEST 2017 -  - Systemd
+```
+
 #### Ejemplo2
