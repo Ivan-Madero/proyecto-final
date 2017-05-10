@@ -370,6 +370,34 @@ si se suspende y si el sistema lo admite. El valor por defecto es
 Para mas información consulte el `man sytemd.timer` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.timer.html#Options).
 
+### Gestión de los temporizadores
+
+Una vez creados los temporizadores, podemos ponerlos en marcha usando el
+comando `# systemctl start .timer`, cuando la maquina se apague este 
+temporizador será apagado, si queremos que sea permanente deberemos 
+realizar el siguiente comando, para cada vez que la maquina se encienda 
+se active el temporizador: `# systemctl enable .timer`.
+
+Para detenerlo usaremos: `# systemctl stop .timer`. Y para deshabilitar 
+el arranque permanente usaremos: `# systemctl disable .timer`.
+
+Podemos obserbar los temporizadores activos con el comando `# systemctl 
+list-timers`
+
+```
+[user@hostname ~]# systemctl list-timers 
+NEXT                          LEFT       LAST                          PASSED       UNIT                         ACTIVATES
+Mon 2017-05-08 13:00:35 CEST  35s left   Mon 2017-05-08 12:58:35 CEST  1min 24s ago echo_date.timer              echo_date.service
+Mon 2017-05-08 13:35:25 CEST  35min left Mon 2017-05-08 12:35:23 CEST  24min ago    dnf-makecache.timer          dnf-makecache.service
+Tue 2017-05-09 00:00:00 CEST  11h left   Mon 2017-05-08 09:06:24 CEST  3h 53min ago mlocate-updatedb.timer       mlocate-updatedb.service
+Tue 2017-05-09 00:00:00 CEST  11h left   Mon 2017-05-08 09:06:24 CEST  3h 53min ago unbound-anchor.timer         unbound-anchor.service
+Tue 2017-05-09 09:40:01 CEST  20h left   Mon 2017-05-08 09:40:01 CEST  3h 19min ago systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service
+```
+
+Con este comando podemos ver la proxima activación, cuanto queda para 
+esta, la ultima activación, cuanto ha pasado desde esta, el `.timer` y 
+el `.service`.
+
 ### Transformar tareas de Cron a Systemd
 
 Para poder transformar una tarea definida por `Cron` a `Systemd` debemos
