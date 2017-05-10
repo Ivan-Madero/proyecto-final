@@ -30,7 +30,8 @@ configuraciones.
 3. [Substituir Cron por Systemd.timers](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#substituir-cron-por-systemdtimers)\
 	3.1. [Archivos .service](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#archivos-service)\
 	3.2. [Archivos .timer](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#archivos-timer)\
-	3.3. [Transformar tareas de Cron a Systemd](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#transformar-tareas-de-cron-a-systemd)
+	3.3. [Gestión de los temporizadores](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#gesti%C3%B3n-de-los-temporizadores)\
+	3.4. [Transformar tareas de Cron a Systemd](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#transformar-tareas-de-cron-a-systemd)
 
 EXTRA. [WebGrafia](https://github.com/Ivan-Madero/proyecto-final/blob/master/WebGrafia.md#webgrafia)
 	
