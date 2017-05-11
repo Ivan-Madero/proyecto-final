@@ -172,6 +172,70 @@ administrar la red.
 
 #### Configuración Servidor
 
+Para configurar el ordenador el cual centralizará los logs del resto de
+ordenadores debemos seguir los siguientes pasos:
+
+1. Instalar el paquete `systemd-journal-remote`: `# dnf install -y 
+systemd-journal-remote`.
+2. Habilitar el puerto de escucha: `# systemctl enable 
+systemd-journal-remote.socket`.
+3. Revisar la configración del puerto de escucha. Podemos encontrar el 
+fichero en: **/lib/systemd/system/systemd-journal-remote.socket**. El 
+puerto por defecto es el 19532.
+```
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=Journal Remote Sink Socket
+
+[Socket]
+ListenStream=19532
+
+[Install]
+WantedBy=sockets.target
+
+```
+4. Revisar el fichero de configuración del servicio, podemos encontrarlo
+en: **/lib/systemd/system/systemd-journal-remote.service**. Si utilizamos
+el servicio via http debemos substituir el parametro por defecto 
+`--listen-https=-3` por `--listen-http=-3`.
+```
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=Journal Remote Sink Service
+Documentation=man:systemd-journal-remote(8) man:journal-remote.conf(5)
+Requires=systemd-journal-remote.socket
+
+[Service]
+ExecStart=/usr/lib/systemd/systemd-journal-remote \
+          --listen-http=-3 \
+          --output=/var/log/journal/remote/
+User=systemd-journal-remote
+Group=systemd-journal-remote
+PrivateTmp=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+WatchdogSec=3min
+
+[Install]
+Also=systemd-journal-remote.socket
+```
+5. Crear la carpeta definida en parametro `--output=` y cambair su 
+propietario por **systemd-journal-remote**. 
+`# mkdir /var/log/journal/remote ; 
+chown systemd-journal-remote /var/log/journal/remote`.
+
 #### Configuración Cliente
 
 ## Substituir Cron por Systemd.timers
@@ -373,13 +437,13 @@ Para mas información consulte el `man sytemd.timer` o
 ### Gestión de los temporizadores
 
 Una vez creados los temporizadores, podemos ponerlos en marcha usando el
-comando `# systemctl start .timer`, cuando la maquina se apague este 
+comando `# systemctl start name.timer`, cuando la maquina se apague este 
 temporizador será apagado, si queremos que sea permanente deberemos 
 realizar el siguiente comando, para cada vez que la maquina se encienda 
-se active el temporizador: `# systemctl enable .timer`.
+se active el temporizador: `# systemctl enable name.timer`.
 
-Para detenerlo usaremos: `# systemctl stop .timer`. Y para deshabilitar 
-el arranque permanente usaremos: `# systemctl disable .timer`.
+Para detenerlo usaremos: `# systemctl stop name.timer`. Y para deshabilitar 
+el arranque permanente usaremos: `# systemctl disable name.timer`.
 
 Podemos obserbar los temporizadores activos con el comando `# systemctl 
 list-timers`
@@ -482,3 +546,13 @@ Mon May  8 12:36:33 CEST 2017 -  - Systemd
 ```
 
 #### Ejemplo2
+
+### Herramientas
+
+#### systemd-cron-next
+
+[Pagina Web Oficial](https://github.com/systemd-cron/systemd-cron-next)
+
+#### systemd-cron
+
+[Pagina Web Oficial](https://github.com/systemd-cron/systemd-cron)
