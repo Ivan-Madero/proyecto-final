@@ -235,6 +235,8 @@ Also=systemd-journal-remote.socket
 propietario por **systemd-journal-remote**. 
 `# mkdir /var/log/journal/remote ; 
 chown systemd-journal-remote /var/log/journal/remote`.
+6. Reinicia el socket: `# systemctl restart systemd-journal-remote.socket`.
+7. Actualiza los cambion en los servicios: `# systemctl daemon-reload`.
 
 #### Configuración Cliente
 
