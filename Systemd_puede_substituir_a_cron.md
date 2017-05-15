@@ -161,7 +161,6 @@ CRONDARGS= -s -m off
 
 [root@hostname ~]# systemctl restart crond.service
 ```
-
 ### Centralizar los logs
 
 Una vez realizada la tarea de configurar el **output** de `Cron` al 
@@ -261,6 +260,55 @@ servidor.
 # ServerKeyFile=/etc/ssl/private/journal-upload.pem
 # ServerCertificateFile=/etc/ssl/certs/journal-upload.pem
 # TrustedCertificateFile=/etc/ssl/ca/trusted.pem
+```
+3. Habilitar `systemd-journal-upload` haciendo uso del siguiente comando: 
+`# systemctl enable systemd-journal-upload.service`.
+
+#### Resultado de la configuración
+
+Para acceder a los logs del journal de las otras maquinas cliente 
+deberemos llamar a `journalctl` con el paramentro `--directory 
+/var/log/journal/remote`, que es el directorio que hemos definido en 
+**/lib/systemd/system/systemd-journal-remote.service** anteriormente.
+```
+# NOTA: Para visualizar el de la maquina local(servidor) en la misma atacada 
+he creado un symbolic link del log en la carpeta /var/log/journal/remote.
+
+[root@serverf25 ~]# journalctl _COMM=crond --since today  --directory /var/log/journal/remote/ 
+-- Logs begin at vie 2016-01-22 09:15:49 CET, end at lun 2017-05-15 09:36:50 CEST. --
+may 15 09:09:42 serverf25 crond[706]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 12% if used.)
+may 15 09:09:42 serverf25 crond[706]: (CRON) INFO (running with inotify support)
+may 15 09:09:45 f25 crond[721]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 9% if used.)
+may 15 09:09:45 f25 crond[721]: (CRON) INFO (running with inotify support)
+may 15 09:10:01 f25 CROND[1412]: (root) CMDOUT (hola, soy root desde f25)
+may 15 09:10:01 serverf25 CROND[1396]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
+may 15 09:10:01 serverf25 CROND[1395]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:12:01 serverf25 CROND[1560]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:14:01 f25 CROND[1634]: (root) CMDOUT (hola, soy root desde f25)
+may 15 09:14:01 serverf25 CROND[1563]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:16:01 f25 CROND[1653]: (root) CMDOUT (hola, soy root desde f25)
+may 15 09:16:01 serverf25 CROND[1572]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
+may 15 09:16:01 serverf25 CROND[1571]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:18:01 serverf25 CROND[1575]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
+may 15 09:18:01 serverf25 CROND[1574]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:22:01 f25 CROND[1680]: (root) CMDOUT (hola, soy root desde f25)
+may 15 09:22:01 serverf25 CROND[1621]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:24:01 f25 CROND[1682]: (root) CMDOUT (hola, soy root desde f25)
+may 15 09:24:01 serverf25 CROND[1664]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
+may 15 09:24:01 serverf25 CROND[1663]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:28:01 f25 CROND[1693]: (root) CMDOUT (hola, soy root desde f25)
+may 15 09:28:01 serverf25 CROND[1733]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:30:01 f25 CROND[1699]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
+may 15 09:30:01 serverf25 CROND[1779]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
+may 15 09:30:01 serverf25 CROND[1778]: (root) CMDOUT (hola, soy root desde serverf25)
+may 15 09:32:01 f25 CROND[1701]: (root) CMDOUT (hola, soy root desde f25)
+may 15 09:33:46 f25 crond[721]: (CRON) INFO (Shutting down)
+may 15 09:33:55 f25 crond[720]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 86% if used.)
+may 15 09:33:55 f25 crond[720]: (CRON) INFO (running with inotify support)
+may 15 09:34:01 f25 CROND[1485]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
+may 15 09:34:01 f25 CROND[1484]: (root) CMDOUT (hola, soy root desde f25)
+may 15 09:36:01 serverf25 CROND[1855]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
+may 15 09:36:01 serverf25 CROND[1854]: (root) CMDOUT (hola, soy root desde serverf25)
 ```
 
 ## Substituir Cron por Systemd.timers
