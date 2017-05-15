@@ -21,8 +21,6 @@ configuraciones.
 
 ## Tabla de contenidos
 
-## Tabla de contenidos
-
 1. [Cron y atd](Systemd_puede_substituir_a_cron.md#cron-y-atd)\
 	1.1. [Cron](Systemd_puede_substituir_a_cron.md#cron)\
 	1.2. [At](Systemd_puede_substituir_a_cron.md#atd)
