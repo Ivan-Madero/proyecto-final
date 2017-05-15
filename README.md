@@ -21,17 +21,19 @@ configuraciones.
 
 ## Tabla de contenidos
 
-1. [Cron y atd](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#cron-y-atd)\
-	1.1. [Cron](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#cron)\
-	1.2. [At](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#atd)
-2. [Substituir el protocolo SMTP por Journal en Cron](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#substituit-el-protocolo-smtp-por-journal-en-cron)\
-	2.1. [Configurar el output de cron en journal](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#configurar-el-output-de-cron-en-journal)\
-	2.2. [Centralizar los logs](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#centralizar-los-logs)
-3. [Substituir Cron por Systemd.timers](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#substituir-cron-por-systemdtimers)\
-	3.1. [Archivos .service](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#archivos-service)\
-	3.2. [Archivos .timer](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#archivos-timer)\
-	3.3. [Gestión de los temporizadores](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#gesti%C3%B3n-de-los-temporizadores)\
-	3.4. [Transformar tareas de Cron a Systemd](https://github.com/Ivan-Madero/proyecto-final/blob/master/Systemd_puede_substituir_a_cron.md#transformar-tareas-de-cron-a-systemd)
+## Tabla de contenidos
+
+1. [Cron y atd](Systemd_puede_substituir_a_cron.md#cron-y-atd)\
+	1.1. [Cron](Systemd_puede_substituir_a_cron.md#cron)\
+	1.2. [At](Systemd_puede_substituir_a_cron.md#atd)
+2. [Substituir el protocolo SMTP por Journal en Cron](Systemd_puede_substituir_a_cron.md#substituit-el-protocolo-smtp-por-journal-en-cron)\
+	2.1. [Configurar el output de cron en journal](Systemd_puede_substituir_a_cron.md#configurar-el-output-de-cron-en-journal)\
+	2.2. [Centralizar los logs](Systemd_puede_substituir_a_cron.md#centralizar-los-logs)
+3. [Substituir Cron por Systemd.timers](Systemd_puede_substituir_a_cron.md#substituir-cron-por-systemdtimers)\
+	3.1. [Archivos .service](Systemd_puede_substituir_a_cron.md#archivos-service)\
+	3.2. [Archivos .timer](Systemd_puede_substituir_a_cron.md#archivos-timer)\
+	3.3. [Gestión de los temporizadores](Systemd_puede_substituir_a_cron.md#gesti%C3%B3n-de-los-temporizadores)\
+	3.4. [Transformar tareas de Cron a Systemd](Systemd_puede_substituir_a_cron.md#transformar-tareas-de-cron-a-systemd)
 
 EXTRA. [WebGrafia](WebGrafia.md#webgrafia)
 	
