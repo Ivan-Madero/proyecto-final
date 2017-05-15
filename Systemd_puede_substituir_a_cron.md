@@ -188,55 +188,55 @@ systemd-journal-remote.socket`.
 3. Revisar la configración del puerto de escucha. Podemos encontrar el 
 fichero en: **/lib/systemd/system/systemd-journal-remote.socket**. El 
 puerto por defecto es el 19532.
-```
-#  This file is part of systemd.
-#
-#  systemd is free software; you can redistribute it and/or modify it
-#  under the terms of the GNU Lesser General Public License as published by
-#  the Free Software Foundation; either version 2.1 of the License, or
-#  (at your option) any later version.
+	```
+	#  This file is part of systemd.
+	#
+	#  systemd is free software; you can redistribute it and/or modify it
+	#  under the terms of the GNU Lesser General Public License as published by
+	#  the Free Software Foundation; either version 2.1 of the License, or
+	#  (at your option) any later version.
 
-[Unit]
-Description=Journal Remote Sink Socket
+	[Unit]
+	Description=Journal Remote Sink Socket
 
-[Socket]
-ListenStream=19532
+	[Socket]
+	ListenStream=19532
 
-[Install]
-WantedBy=sockets.target
+	[Install]
+	WantedBy=sockets.target
 
-```
+	```
 4. Revisar el fichero de configuración del servicio, podemos encontrarlo
 en: **/lib/systemd/system/systemd-journal-remote.service**. Si utilizamos
 el servicio via http debemos substituir el parametro por defecto 
 `--listen-https=-3` por `--listen-http=-3`.
-```
-#  This file is part of systemd.
-#
-#  systemd is free software; you can redistribute it and/or modify it
-#  under the terms of the GNU Lesser General Public License as published by
-#  the Free Software Foundation; either version 2.1 of the License, or
-#  (at your option) any later version.
+	```
+	#  This file is part of systemd.
+	#
+	#  systemd is free software; you can redistribute it and/or modify it
+	#  under the terms of the GNU Lesser General Public License as published by
+	#  the Free Software Foundation; either version 2.1 of the License, or
+	#  (at your option) any later version.
 
-[Unit]
-Description=Journal Remote Sink Service
-Documentation=man:systemd-journal-remote(8) man:journal-remote.conf(5)
-Requires=systemd-journal-remote.socket
+	[Unit]
+	Description=Journal Remote Sink Service
+	Documentation=man:systemd-journal-remote(8) man:journal-remote.conf(5)
+	Requires=systemd-journal-remote.socket
 
-[Service]
-ExecStart=/usr/lib/systemd/systemd-journal-remote \
-          --listen-http=-3 \
-          --output=/var/log/journal/remote/
-User=systemd-journal-remote
-Group=systemd-journal-remote
-PrivateTmp=yes
-PrivateDevices=yes
-PrivateNetwork=yes
-WatchdogSec=3min
+	[Service]
+	ExecStart=/usr/lib/systemd/systemd-journal-remote \
+			  --listen-http=-3 \
+			  --output=/var/log/journal/remote/
+	User=systemd-journal-remote
+	Group=systemd-journal-remote
+	PrivateTmp=yes
+	PrivateDevices=yes
+	PrivateNetwork=yes
+	WatchdogSec=3min
 
-[Install]
-Also=systemd-journal-remote.socket
-```
+	[Install]
+	Also=systemd-journal-remote.socket
+	```
 5. Crear la carpeta definida en parametro `--output=` y cambair su 
 propietario por **systemd-journal-remote**. 
 `# mkdir /var/log/journal/remote ; 
@@ -254,13 +254,13 @@ systemd-journal-remote`.
 **/etc/systemd/journal-upload.conf**. Debemos configurar el destino en 
 el parametro `URL=` con el protocolo http o https y la ip y puerto del 
 servidor.
-```
-[Upload]
- URL=http://10.250.100.150:19532
-# ServerKeyFile=/etc/ssl/private/journal-upload.pem
-# ServerCertificateFile=/etc/ssl/certs/journal-upload.pem
-# TrustedCertificateFile=/etc/ssl/ca/trusted.pem
-```
+	```
+	[Upload]
+	 URL=http://10.250.100.150:19532
+	# ServerKeyFile=/etc/ssl/private/journal-upload.pem
+	# ServerCertificateFile=/etc/ssl/certs/journal-upload.pem
+	# TrustedCertificateFile=/etc/ssl/ca/trusted.pem
+          	```
 3. Habilitar `systemd-journal-upload` haciendo uso del siguiente comando: 
 `# systemctl enable systemd-journal-upload.service`.
 
