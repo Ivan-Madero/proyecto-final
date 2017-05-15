@@ -549,7 +549,7 @@ expondré algunos ejemplos:
 En este primer ejemplo obaservaremos un caso muy simple, un `echo` que
 cada 2 min escribe en un fichero que se encuentra en **/tmp/date.log**,
 una linea con la fecha y hora, el usuario y la palabra cron. Esta tarea
-esta configurada en el personal de un usuario, usaremos el comando 
+esta configurada en el cron personal de un usuario, usaremos el comando 
 `crontab -e` para editarlo.
 
 **Cron**
@@ -651,12 +651,15 @@ Esta vez he obtado por defenir la tarea en el fichero general del `Cron`,
 **/etc/crontab**. Simplemente para dejar constancia que ambas practicas 
 son posibles, la utilización de una o otra dependera de las necesidades 
 y criterios de trabajo. He decidido almacenar este script en un directrio
-que yo he creado, **/etc/crond.jobs**.
+que yo he creado, **/etc/crond.jobs** y ha consecuencia he añadido dicho
+directorio al **PATH** del `crontab`.
 
 **Systemd**
 
 ```
 File: /etc/systemd/system/exec-script.service
+# Servicio creado para sustituir la tarea en Cron con la siguiente 
+# sintaxis: 00 12 1..4 * Mon root script.sh
 
 [Unit]
 Description=Ejecuta un script.
@@ -668,22 +671,49 @@ ExecStart=/usr/bin/sh -c '/etc/cron.jobs/script.sh'
 ///////////////////////////////////////////////////////////////////////
 
 File: /etc/systemd/system/exec-script.timer
+# Temporizador para ejecutar cada principio de mes, cuando uno de los 4
+# primeros dias cae en Lunes.
 
 [Unit]
 Description=Temporizador de exec-script cada princio de mes.
 
 [Timer]
-OnCalendar=OnCalendar=Mon *-*-01..04 12:00:00
+OnCalendar=Mon *-*-01..04 12:00:00
 Unit=exec-script.service
 
 [Install]
 WantedBy=basic.target
 ```
 
+En este ejemplo cabe destacar el parametro **OnCalendar=**, el cual 
+usaremos cuando quedramos concretar la ejecución de la tarea en una 
+fecha concreta.
+
 **Resultado**
 
 ```
+# Nota: Podria falsear los datos o cambiar los parametros de ejecución,
+pero creo que no es necesario. Mostrare cuando esta prevista la proxima
+ejecución y la ejecutaré manualmente.
 
+# Proxima ejecución: Lunes 03/07/2017 a las 12:00:00
+[root@hostname ~]# systemctl list-timers 
+NEXT                          LEFT                  LAST                          PASSED       UNIT                         ACTIVATES
+lun 2017-07-03 12:00:00 CEST  1 months 18 days left n/a                           n/a          exec-script.timer            exec-script.service
+
+# Ejecución manual:
+[root@hostname ~]# systemctl start exec-script.service
+
+# Resultado de la ejecución:
+[root@hostname ~]# journalctl -f
+may 15 12:48:56 localhost.localdomain systemd[1]: Starting Ejecuta un script....
+may 15 12:48:56 localhost.localdomain sh[2477]: Hello World!
+may 15 12:48:56 localhost.localdomain sh[2477]: Today is 05/15/17.
+may 15 12:48:56 localhost.localdomain kernel: audit: type=1130 audit(1494845336.948:253): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script com
+may 15 12:48:56 localhost.localdomain kernel: audit: type=1131 audit(1494845336.948:254): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script com
+may 15 12:48:56 localhost.localdomain audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script comm="systemd" exe="/usr/lib/sy
+may 15 12:48:56 localhost.localdomain audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script comm="systemd" exe="/usr/lib/sys
+may 15 12:48:56 localhost.localdomain systemd[1]: Started Ejecuta un script..
 ```
 
 #### Ejemplo3
