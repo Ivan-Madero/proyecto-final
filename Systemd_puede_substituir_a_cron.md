@@ -168,7 +168,14 @@ Una vez realizada la tarea de configurar el **output** de `Cron` al
 `Journal`, toca configurar las maquinas para un entorno de trabajo
 adequado, con esto me refiero a centralizar los logs del `Journal` en
 un solo host de la red, para facilitar al administrador el trabajo de
-administrar la red.
+administrar la red. La configuración por defecto que proporciona la 
+herramienta `systemd-journal-remote` y `systemd-journal-upload` carga 
+integramente el fichero de log de la maquina local (cliente), en la
+maquina remota (servidor), esta ación esta pensada para ejecutarse una 
+sola vez en el arranque de la maquina cliente. Si fuera necesario se 
+podria ejecutar manualmente la carga del fichero en el cliente, pero no 
+es recomendable lanzarlo periodicamente en plazos de tiempo cortos, 
+podria provocar grandes saturaciones en la red de trabajo.
 
 #### Configuración Servidor
 
@@ -239,6 +246,22 @@ chown systemd-journal-remote /var/log/journal/remote`.
 7. Actualiza los cambion en los servicios: `# systemctl daemon-reload`.
 
 #### Configuración Cliente
+
+La configuración necesaria en el cliente es la siguiente:
+
+1. Instalar el paquete `systemd-journal-remote`: `# dnf install -y 
+systemd-journal-remote`.
+2. Editar el archivo de configuración, lo podemos encontrar en: 
+**/etc/systemd/journal-upload.conf**. Debemos configurar el destino en 
+el parametro `URL=` con el protocolo http o https y la ip y puerto del 
+servidor.
+```
+[Upload]
+ URL=http://10.250.100.150:19532
+# ServerKeyFile=/etc/ssl/private/journal-upload.pem
+# ServerCertificateFile=/etc/ssl/certs/journal-upload.pem
+# TrustedCertificateFile=/etc/ssl/ca/trusted.pem
+```
 
 ## Substituir Cron por Systemd.timers
 
