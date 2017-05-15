@@ -260,7 +260,7 @@ servidor.
 	# ServerKeyFile=/etc/ssl/private/journal-upload.pem
 	# ServerCertificateFile=/etc/ssl/certs/journal-upload.pem
 	# TrustedCertificateFile=/etc/ssl/ca/trusted.pem
-          	```
+	```
 3. Habilitar `systemd-journal-upload` haciendo uso del siguiente comando: 
 `# systemctl enable systemd-journal-upload.service`.
 
