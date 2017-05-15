@@ -620,6 +620,82 @@ Mon May  8 12:36:33 CEST 2017 -  - Systemd
 
 #### Ejemplo2
 
+En este segundo ejemplo observaremos un caso en que se ejecura un script,
+el cual realizará algunas acciones, cada mes a las 12:00, si alguno de 
+los cuatro primeros dias del mes caen en lunes.
+
+**Cron**
+
+```
+[user@hostname ~]# vim /etc/crontab
+
+```
+
+Esta vez he obtado por defenir la tarea en el fichero general del `Cron`, 
+**/etc/crontab**. Simplemente para dejar constancia que ambas practicas 
+son posibles, la utilización de una o otra dependera de las necesidades 
+y criterios de trabajo.
+
+**Systemd**
+
+```
+File: 
+
+[Unit]
+
+[Service]
+
+///////////////////////////////////////////////////////////////////////
+
+File: 
+
+[Unit]
+
+[Timer]
+
+[Install]
+```
+
+**Resultado**
+
+```
+
+```
+
+#### Ejemplo3
+
+**Cron**
+
+```
+
+```
+
+**Systemd**
+
+```
+File: 
+
+[Unit]
+
+[Service]
+
+///////////////////////////////////////////////////////////////////////
+
+File: 
+
+[Unit]
+
+[Timer]
+
+[Install]
+```
+
+**Resultado**
+
+```
+
+```
+
 ### Herramientas
 
 #### systemd-cron-next
