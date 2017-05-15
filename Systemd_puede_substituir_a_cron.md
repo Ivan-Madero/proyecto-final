@@ -628,32 +628,56 @@ los cuatro primeros dias del mes caen en lunes.
 
 ```
 [user@hostname ~]# vim /etc/crontab
+SHELL=/bin/bash
+PATH=/etc/crond.jobs:/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
 
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+
+# Tarea para ejecutar un script a principio de mes.
+00 12 1..4 * Mon root script.sh
 ```
 
 Esta vez he obtado por defenir la tarea en el fichero general del `Cron`, 
 **/etc/crontab**. Simplemente para dejar constancia que ambas practicas 
 son posibles, la utilización de una o otra dependera de las necesidades 
-y criterios de trabajo.
+y criterios de trabajo. He decidido almacenar este script en un directrio
+que yo he creado, **/etc/crond.jobs**.
 
 **Systemd**
 
 ```
-File: 
+File: /etc/systemd/system/exec-script.service
 
 [Unit]
+Description=Ejecuta un script.
 
 [Service]
+Type=oneshot
+ExecStart=/usr/bin/sh -c '/etc/cron.jobs/script.sh'
 
 ///////////////////////////////////////////////////////////////////////
 
-File: 
+File: /etc/systemd/system/exec-script.timer
 
 [Unit]
+Description=Temporizador de exec-script cada princio de mes.
 
 [Timer]
+OnCalendar=OnCalendar=Mon *-*-01..04 12:00:00
+Unit=exec-script.service
 
 [Install]
+WantedBy=basic.target
 ```
 
 **Resultado**
