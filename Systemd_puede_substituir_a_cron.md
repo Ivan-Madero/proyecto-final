@@ -718,10 +718,30 @@ may 15 12:48:56 localhost.localdomain systemd[1]: Started Ejecuta un script..
 
 #### Ejemplo3
 
+Este ultimo ejemplo que expongo será útil para entornos de trabajo, para 
+que no se queden encendidad las maquinas de los trabajadores después de 
+la jornada laboral. La tarea se ejecutará los dias laborales 
+(lunes - viernes) a las 9:00 PM.
+
 **Cron**
 
 ```
+SHELL=/bin/bash
+PATH=/etc/cron.jobs:/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
 
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+
+00 21 * * 1..5 root /usr/sbin/shutdown
 ```
 
 **Systemd**
@@ -735,19 +755,39 @@ File:
 
 ///////////////////////////////////////////////////////////////////////
 
-File: 
+File: /etc/systemd/system/shutdown.timer
+# Temporizador para ejecutar en dias laborables, de lunes a viernes, a las
+# 21:00.
 
 [Unit]
+Description=Temporizador de shutdown para los dias laborales (Mon-Fri) a 9PM.
 
 [Timer]
+OnCalendar=Mon-Fri *-*-* 21:00:00
+Unit=shutdown.service
 
 [Install]
+WantedBy=basic.target
+
 ```
 
 **Resultado**
 
 ```
+# NOTA: Mostraré su proxima ejecución y el registro del journalctl.
 
+# Proxima ejecución:
+[root@localhost ~]# systemctl list-timers 
+NEXT                           LEFT                  LAST                          PASSED    UNIT                         ACTIVATES
+mar 2017-05-16 21:00:00 CEST   11h left              n/a                           n/a       shutdown.timer               shutdown.service
+
+# Registro journalctl:
+may 16 09:41:21 localhost.localdomain systemd[1]: Starting Apaga de forma segura el equipo....
+may 16 09:41:21 localhost.localdomain systemd-logind[636]: Creating /run/nologin, blocking further logins...
+may 16 09:41:21 localhost.localdomain audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=shutdown comm="systemd" exe="/usr/lib/syste
+may 16 09:41:21 localhost.localdomain audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=shutdown comm="systemd" exe="/usr/lib/system
+may 16 09:41:21 localhost.localdomain shutdown[1857]: Shutdown scheduled for dt 2017-05-16 09:42:21 CEST, use 'shutdown -c' to cancel.
+may 16 09:41:21 localhost.localdomain systemd[1]: Started Apaga de forma segura el equipo..
 ```
 
 ### Herramientas
