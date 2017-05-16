@@ -782,11 +782,12 @@ WantedBy=basic.target
 # NOTA: Mostraré su proxima ejecución y el registro del journalctl.
 
 # Proxima ejecución:
-[root@localhost ~]# systemctl list-timers 
+[root@hostname ~]# systemctl list-timers 
 NEXT                           LEFT                  LAST                          PASSED    UNIT                         ACTIVATES
 mar 2017-05-16 21:00:00 CEST   11h left              n/a                           n/a       shutdown.timer               shutdown.service
 
 # Registro journalctl:
+[root@hostname ~]# journalctl -f
 may 16 09:41:21 localhost.localdomain systemd[1]: Starting Apaga de forma segura el equipo....
 may 16 09:41:21 localhost.localdomain systemd-logind[636]: Creating /run/nologin, blocking further logins...
 may 16 09:41:21 localhost.localdomain audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=shutdown comm="systemd" exe="/usr/lib/syste
@@ -801,6 +802,93 @@ may 16 09:41:21 localhost.localdomain systemd[1]: Started Apaga de forma segura 
 
 [Pagina Web Oficial](https://github.com/systemd-cron/systemd-cron-next)
 
-#### systemd-cron
+En la pagina web oficial contiene el material y la información necesaria
+para la instalación y utilización de este herramienta que su función es 
+analizar las tareas definidas en `Crond`, y adecuarlas para que sean 
+ejecutadas por `Systemd`.
 
-[Pagina Web Oficial](https://github.com/systemd-cron/systemd-cron)
+Es la version actualizada del paquete `systemd-crontab-generator`. 
+
+**NOTA**: Es una versión beta, el autor advierte que no se hace cargo si 
+funciona erroneamente.
+
+Hay dos formas de utilizar esta herramienta:
+
+- **Manual**: Puedes usarla de forma manual llamando al comando 
+`# /usr/local/lib/systemd/system-generators/systemd-crontab-generator outuput_folder`.
+Este analiza los ficheros de tareas de `Cron` y genera su conversion para
+`Systemd`.
+
+- **Automaticamente**: De esta forma lo usaremos como un demonio, este 
+comprobará los archivos de tareas de `Cron` cuando inicie el sistema o 
+se produzcan cambios en ellos. Generara la conversion para `Systemd` y 
+activara los **.timer** generados. Para usarlo de esta forma simplemente
+ejecutamos el comando: `# systemctl enable cron.target`.
+
+**Ejemplo de los resultados generados**
+
+- **Cron**
+	```
+	# Archivo /etc/crontab
+	[root@hostname ~]# cat /etc/crontab 
+	SHELL=/bin/bash
+	PATH=/etc/cron.jobs:/sbin:/bin:/usr/sbin:/usr/bin
+	MAILTO=root
+
+	# For details see man 4 crontabs
+
+	# Example of job definition:
+	# .---------------- minute (0 - 59)
+	# |  .------------- hour (0 - 23)
+	# |  |  .---------- day of month (1 - 31)
+	# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+	# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+	# |  |  |  |  |
+	# *  *  *  *  * user-name  command to be executed
+
+	*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
+	```
+- **Systemd**
+	```
+	# Archivos generados para la conversion a Systemd
+	# File: .service
+
+	[Unit]
+	Description=[Cron] "*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log"
+	Documentation=man:systemd-crontab-generator(8)
+	RefuseManualStart=true
+	RefuseManualStop=true
+	SourcePath=/etc/crontab
+	OnFailure=cron-failure@%i.service
+
+	[Service]
+	Type=oneshot
+	IgnoreSIGPIPE=false
+	ExecStart=/run/systemd/generator/cron-e4d207c1785ce315b682c502550a0b47.sh
+	Environment="MAILTO=root"
+	Environment="PATH=/etc/cron.jobs:/sbin:/bin:/usr/sbin:/usr/bin"
+	Environment="SHELL=/bin/bash"
+
+	///////////////////////////////////////////////////////////////////////
+	# File: .timer
+
+	[Unit]
+	Description=[Timer] "*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log"
+	Documentation=man:systemd-crontab-generator(8)
+	PartOf=cron.target
+	RefuseManualStart=true
+	RefuseManualStop=true
+	SourcePath=/etc/crontab
+
+	[Timer]
+	Unit=cron-e4d207c1785ce315b682c502550a0b47.service
+	OnCalendar= *-*-* *:0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,59:00
+
+	///////////////////////////////////////////////////////////////////////
+	# File: .sh
+
+	#!/bin/bash
+	/usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
+	```
+
+## Conclusión personal
