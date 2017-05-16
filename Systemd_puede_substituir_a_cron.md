@@ -719,7 +719,7 @@ may 15 12:48:56 localhost.localdomain systemd[1]: Started Ejecuta un script..
 #### Ejemplo3
 
 Este ultimo ejemplo que expongo será útil para entornos de trabajo, para 
-que no se queden encendidad las maquinas de los trabajadores después de 
+que no se queden encendidas las maquinas de los trabajadores después de 
 la jornada laboral. La tarea se ejecutará los dias laborales 
 (lunes - viernes) a las 9:00 PM.
 
@@ -747,11 +747,16 @@ MAILTO=root
 **Systemd**
 
 ```
-File: 
+File: /etc/systemd/system/shutdown.service
+# Servicio creado para sustituir la tarea en Cron con la siguiente 
+# sintaxis: 00 21 * * 1..5 root /usr/sbin/shutdown
 
 [Unit]
+Description=Apaga de forma segura el equipo.
 
 [Service]
+Type=oneshot
+ExecStart=/usr/sbin/shutdown
 
 ///////////////////////////////////////////////////////////////////////
 
