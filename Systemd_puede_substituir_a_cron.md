@@ -817,13 +817,18 @@ Hay dos formas de utilizar esta herramienta:
 - **Manual**: Puedes usarla de forma manual llamando al comando 
 `# /usr/local/lib/systemd/system-generators/systemd-crontab-generator outuput_folder`.
 Este analiza los ficheros de tareas de `Cron` y genera su conversion para
-`Systemd`.
+`Systemd`. Es recomendable usar rutas absolutas para que los archivos 
+generados funcionen correctamente, y la mejor ruta para que el sistema 
+pueda hacer uso de ellos es: **/etc/systemd/system/**. El autor recomienda
+no usarlo manualmente.
 
-- **Automaticamente**: De esta forma lo usaremos como un demonio, este 
+- **Automaticamente**: De esta forma lo usaremos de forma automatica, este 
 comprobará los archivos de tareas de `Cron` cuando inicie el sistema o 
 se produzcan cambios en ellos. Generara la conversion para `Systemd` y 
 activara los **.timer** generados. Para usarlo de esta forma simplemente
-ejecutamos el comando: `# systemctl enable cron.target`.
+ejecutamos el comando: `# systemctl enable cron.target`. Al ejecutar el 
+**enable**, internamente ejecuta `systemd-crontab-generator` y genera los 
+archivos en el siguiente directorio: **/run/systemd/generator/**.
 
 **Ejemplo de los resultados generados**
 
@@ -892,3 +897,19 @@ ejecutamos el comando: `# systemctl enable cron.target`.
 	```
 
 ## Conclusión personal
+
+He creido conveniente elaborar un pequeño escrito final en el que daba a 
+conocer mi opinion personal sobre la utilidad de substituir `Cron` por 
+`Systemd`. Ya que en este momento es totalmente posible que `Systemd` 
+substituya a `Cron`, pero personalmente después de realizar la 
+investigación y dedicarle horas en comprender como hacer la conversión 
+de una tecnologia a la otra he llegado a la conclusión que cara al 
+adminsitrador del sistema es mucho mas sencillo y comodo seguir usando 
+`Cron`. Tiene una sintaxis mas simple en comparación a `Systemd` y 
+a diferencia que `Systemd` que necesita como minimo configurar 2 
+ficheros, `Cron` puede configurar tareas usando solamente una linea en 
+un fichero. He encontrado una aplicación que te convierte las tareas de 
+`Cron` a `Systemd`, pero creo que es útil para sacarte de un apuro, en 
+mi opinion si debes usar `Systemd` deberías conocer la sintaxis y 
+generar tu los archivos manualmente, para evitar errores y malos 
+funcionamientos.
