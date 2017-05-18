@@ -805,7 +805,8 @@ may 16 09:41:21 localhost.localdomain systemd[1]: Started Apaga de forma segura 
 En la pagina web oficial contiene el material y la información necesaria
 para la instalación y utilización de este herramienta que su función es 
 analizar las tareas definidas en `Crond`, y adecuarlas para que sean 
-ejecutadas por `Systemd`.
+ejecutadas por `Systemd`. Para su completo funcionamiento requiere de
+`run-parts` que normalmente viene incluido con el paquete `crontabs`.
 
 Es la version actualizada del paquete `systemd-crontab-generator`. 
 
@@ -822,13 +823,19 @@ generados funcionen correctamente, y la mejor ruta para que el sistema
 pueda hacer uso de ellos es: **/etc/systemd/system/**. El autor recomienda
 no usarlo manualmente.
 
-- **Automaticamente**: De esta forma lo usaremos de forma automatica, este 
-comprobará los archivos de tareas de `Cron` cuando inicie el sistema o 
-se produzcan cambios en ellos. Generara la conversion para `Systemd` y 
-activara los **.timer** generados. Para usarlo de esta forma simplemente
-ejecutamos el comando: `# systemctl enable cron.target`. Al ejecutar el 
-**enable**, internamente ejecuta `systemd-crontab-generator` y genera los 
-archivos en el siguiente directorio: **/run/systemd/generator/**.
+- **Automaticamente**: Para usarlo de esta forma simplemente
+ejecutamos el comando: `# systemctl enable cron.target`. Cuando inicie 
+el sistema activará todos los **.timer** definidos en 
+**/run/systemd/generator/**. Los ficheros que contiene este directorio 
+son creados de forma automatica por el ejecutable 
+`systemd-crontab-generator`, esto sucede cuando el sistema inicia o se 
+produce un `systemctl daemon-reload`. Esto es posible gracias a una 
+herramienta que contine `Systemd`, `systemd.generator`, que cualquier 
+fichero binario que se encuentre en uno de sus directorios assignados se 
+ejecutará en el inicio o cada vez que se produzca un 
+`systemctl daemon-reload`. Para mas información acerca de esta 
+herramienta consultar el `man systemd.generator` o 
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.generator.html)
 
 **Ejemplo de los resultados generados**
 
@@ -854,47 +861,44 @@ archivos en el siguiente directorio: **/run/systemd/generator/**.
 	*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
 	```
 - **Systemd**
-	```
-	# Archivos generados para la conversion a Systemd
-	# File: .service
 
-	[Unit]
-	Description=[Cron] "*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log"
-	Documentation=man:systemd-crontab-generator(8)
-	RefuseManualStart=true
-	RefuseManualStop=true
-	SourcePath=/etc/crontab
-	OnFailure=cron-failure@%i.service
+	- **File: .service**
+		```
+		[Unit]
+		Description=[Cron] "*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log"
+		Documentation=man:systemd-crontab-generator(8)
+		RefuseManualStart=true
+		RefuseManualStop=true
+		SourcePath=/etc/crontab
+		OnFailure=cron-failure@%i.service
 
-	[Service]
-	Type=oneshot
-	IgnoreSIGPIPE=false
-	ExecStart=/run/systemd/generator/cron-e4d207c1785ce315b682c502550a0b47.sh
-	Environment="MAILTO=root"
-	Environment="PATH=/etc/cron.jobs:/sbin:/bin:/usr/sbin:/usr/bin"
-	Environment="SHELL=/bin/bash"
+		[Service]
+		Type=oneshot
+		IgnoreSIGPIPE=false
+		ExecStart=/run/systemd/generator/cron-e4d207c1785ce315b682c502550a0b47.sh
+		Environment="MAILTO=root"
+		Environment="PATH=/etc/cron.jobs:/sbin:/bin:/usr/sbin:/usr/bin"
+		Environment="SHELL=/bin/bash"
+		```
+	- **File: .timer**
+		```
+		[Unit]
+		Description=[Timer] "*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log"
+		Documentation=man:systemd-crontab-generator(8)
+		PartOf=cron.target
+		RefuseManualStart=true
+		RefuseManualStop=true
+		SourcePath=/etc/crontab
 
-	///////////////////////////////////////////////////////////////////////
-	# File: .timer
-
-	[Unit]
-	Description=[Timer] "*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log"
-	Documentation=man:systemd-crontab-generator(8)
-	PartOf=cron.target
-	RefuseManualStart=true
-	RefuseManualStop=true
-	SourcePath=/etc/crontab
-
-	[Timer]
-	Unit=cron-e4d207c1785ce315b682c502550a0b47.service
-	OnCalendar= *-*-* *:0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,59:00
-
-	///////////////////////////////////////////////////////////////////////
-	# File: .sh
-
-	#!/bin/bash
-	/usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
-	```
+		[Timer]
+		Unit=cron-e4d207c1785ce315b682c502550a0b47.service
+		OnCalendar= *-*-* *:0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,59:00
+		```
+	- **File: .sh**
+		```
+		#!/bin/bash
+		/usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
+		```
 
 ## Conclusión personal
 
@@ -913,3 +917,4 @@ un fichero. He encontrado una aplicación que te convierte las tareas de
 mi opinion si debes usar `Systemd` deberías conocer la sintaxis y 
 generar tu los archivos manualmente, para evitar errores y malos 
 funcionamientos.
+
