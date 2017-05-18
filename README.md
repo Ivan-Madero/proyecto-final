@@ -12,10 +12,14 @@ centralizando estos en un solo host de la red. Y finalmente estudiaremos
 si `Systemd` puede substituir completamente su uso, y en tal caso, como 
 hacerlo. 
 
-Para ello documentaremos la información de uso de `Cron` y `atd`, donde
+Para ello documentare la información de uso de `Cron` y `atd`, donde
 se almacenan los archivos de configuración, la sintaxis para su uso y
 que configuración es necesaria para substiruir el protocolo `SMTP` por 
-`journal` centralizando los **logs** en un solo host de la red.
+`journal`, y centralizando los **logs** en un solo host de la red.
+
+Para poder llevar acabo la conversión de `Cron` a `Systemd` deberé 
+explicar la sintaxis que utiliza `Systemd` y hacer uso de algún que otro 
+ejemplo práctico para comprender mejor la transformación.
 
 ## Tabla de contenidos
 
