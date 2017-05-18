@@ -161,6 +161,7 @@ CRONDARGS= -s -m off
 
 [root@hostname ~]# systemctl restart crond.service
 ```
+
 ### Centralizar los logs
 
 Una vez realizada la tarea de configurar el **output** de `Cron` al 
@@ -913,8 +914,7 @@ adminsitrador del sistema es mucho mas sencillo y comodo seguir usando
 a diferencia que `Systemd` que necesita como minimo configurar 2 
 ficheros, `Cron` puede configurar tareas usando solamente una linea en 
 un fichero. He encontrado una aplicación que te convierte las tareas de 
-`Cron` a `Systemd`, pero creo que es útil para sacarte de un apuro, en 
+`Cron` a `Systemd`, creo que puede ser útil para sacarte de un apuro. En 
 mi opinion si debes usar `Systemd` deberías conocer la sintaxis y 
 generar tu los archivos manualmente, para evitar errores y malos 
 funcionamientos.
-
