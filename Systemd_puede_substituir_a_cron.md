@@ -553,71 +553,70 @@ una linea con la fecha y hora, el usuario y la palabra cron. Esta tarea
 esta configurada en el cron personal de un usuario, usaremos el comando 
 `crontab -e` para editarlo.
 
-**Cron**
+- **Cron**
 
-```
-[user@hostname ~]# crontab -e
-*/2 * * * * /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
-```
+	```
+	[user@hostname ~]# crontab -e
+	*/2 * * * * /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
+	```
 
-Para hacer la conversion de `Cron` a `Systemd` crearemos dos ficheros en
-**/etc/systemd/system/**, con el nombre de **echo_date.service** y 
-**echo_date.timer**.
+	Para hacer la conversion de `Cron` a `Systemd` crearemos dos ficheros en
+	**/etc/systemd/system/**, con el nombre de **echo_date.service** y 
+	**echo_date.timer**.
 
-**Systemd**
+- **Systemd**
 
-```
-File: /etc/systemd/system/echo_date.service
-# Servicio creado para sustituir la tarea en Cron con la siguiente 
-# sintaxis:
-# */2 * * * * /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
-#
+	- **File: /etc/systemd/system/echo_date.service**
+		```
+		# Servicio creado para sustituir la tarea en Cron con la siguiente 
+		# sintaxis:
+		# */2 * * * * /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
+		#
 
-[Unit]
-Description=Insertar fecha y usuario en un fichero en tmp.
+		[Unit]
+		Description=Insertar fecha y usuario en un fichero en tmp.
 
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/sh -c '/usr/bin/echo "$(/usr/bin/date) - $USER - Systemd" >> /tmp/date.log'
+		[Service]
+		Type=oneshot
+		ExecStart=/usr/bin/sh -c '/usr/bin/echo "$(/usr/bin/date) - $USER - Systemd" >> /tmp/date.log'
+		```
+	- **File: /etc/systemd/system/echo_date.timer**
+		```		
+		# Temporizador para ejecutarla cada 2 min
 
-///////////////////////////////////////////////////////////////////////
+		[Unit]
+		Description=Temporizador de echo_date cada 2 min.
 
-File: /etc/systemd/system/echo_date.timer
-# Temporizador para ejecutarla cada 2 min
+		[Timer]
+		OnBootSec=2min
+		OnUnitActiveSec=2min
+		Unit=echo_date.service
 
-[Unit]
-Description=Temporizador de echo_date cada 2 min.
+		[Install]
+		WantedBy=basic.target
+		```
 
-[Timer]
-OnBootSec=2min
-OnUnitActiveSec=2min
-Unit=echo_date.service
+	Como podemos observar siempre que tengamos que redirigir la salida a un 
+	fichero o expandir un $, deberemos llamar a un shell para que realize 
+	esta tarea.
 
-[Install]
-WantedBy=basic.target
-```
+- **Resultado**
 
-Como podemos observar siempre que tengamos que redirigir la salida a un 
-fichero o expandir un $, deberemos llamar a un shell para que realize 
-esta tarea.
-
-**Resultado**
-
-```
-[user@hostname ~]# tail -f /tmp/date.log
-Mon May  8 12:26:02 CEST 2017 - root - Cron
-Mon May  8 12:26:32 CEST 2017 -  - Systemd
-Mon May  8 12:28:01 CEST 2017 - root - Cron
-Mon May  8 12:28:33 CEST 2017 -  - Systemd
-Mon May  8 12:30:01 CEST 2017 - root - Cron
-Mon May  8 12:30:33 CEST 2017 -  - Systemd
-Mon May  8 12:32:01 CEST 2017 - root - Cron
-Mon May  8 12:32:33 CEST 2017 -  - Systemd
-Mon May  8 12:34:01 CEST 2017 - root - Cron
-Mon May  8 12:34:33 CEST 2017 -  - Systemd
-Mon May  8 12:36:01 CEST 2017 - root - Cron
-Mon May  8 12:36:33 CEST 2017 -  - Systemd
-```
+	```
+	[user@hostname ~]# tail -f /tmp/date.log
+	Mon May  8 12:26:02 CEST 2017 - root - Cron
+	Mon May  8 12:26:32 CEST 2017 -  - Systemd
+	Mon May  8 12:28:01 CEST 2017 - root - Cron
+	Mon May  8 12:28:33 CEST 2017 -  - Systemd
+	Mon May  8 12:30:01 CEST 2017 - root - Cron
+	Mon May  8 12:30:33 CEST 2017 -  - Systemd
+	Mon May  8 12:32:01 CEST 2017 - root - Cron
+	Mon May  8 12:32:33 CEST 2017 -  - Systemd
+	Mon May  8 12:34:01 CEST 2017 - root - Cron
+	Mon May  8 12:34:33 CEST 2017 -  - Systemd
+	Mon May  8 12:36:01 CEST 2017 - root - Cron
+	Mon May  8 12:36:33 CEST 2017 -  - Systemd
+	```
 
 #### Ejemplo2
 
