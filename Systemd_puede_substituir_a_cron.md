@@ -560,13 +560,14 @@ esta configurada en el cron personal de un usuario, usaremos el comando
 	*/2 * * * * /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
 	```
 
+- **Systemd**
+
 	Para hacer la conversion de `Cron` a `Systemd` crearemos dos ficheros en
 	**/etc/systemd/system/**, con el nombre de **echo_date.service** y 
 	**echo_date.timer**.
 
-- **Systemd**
-
 	- **File: /etc/systemd/system/echo_date.service**
+
 		```
 		# Servicio creado para sustituir la tarea en Cron con la siguiente 
 		# sintaxis:
@@ -580,7 +581,9 @@ esta configurada en el cron personal de un usuario, usaremos el comando
 		Type=oneshot
 		ExecStart=/usr/bin/sh -c '/usr/bin/echo "$(/usr/bin/date) - $USER - Systemd" >> /tmp/date.log'
 		```
+		
 	- **File: /etc/systemd/system/echo_date.timer**
+
 		```		
 		# Temporizador para ejecutarla cada 2 min
 
@@ -624,97 +627,98 @@ En este segundo ejemplo observaremos un caso en que se ejecura un script,
 el cual realizará algunas acciones, cada mes a las 12:00, si alguno de 
 los cuatro primeros dias del mes caen en lunes.
 
-**Cron**
+- **Cron**
 
-```
-[user@hostname ~]# vim /etc/crontab
-SHELL=/bin/bash
-PATH=/etc/crond.jobs:/sbin:/bin:/usr/sbin:/usr/bin
-MAILTO=root
+	```
+	[user@hostname ~]# vim /etc/crontab
+	SHELL=/bin/bash
+	PATH=/etc/crond.jobs:/sbin:/bin:/usr/sbin:/usr/bin
+	MAILTO=root
 
-# For details see man 4 crontabs
+	# For details see man 4 crontabs
 
-# Example of job definition:
-# .---------------- minute (0 - 59)
-# |  .------------- hour (0 - 23)
-# |  |  .---------- day of month (1 - 31)
-# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
-# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
-# |  |  |  |  |
-# *  *  *  *  * user-name  command to be executed
+	# Example of job definition:
+	# .---------------- minute (0 - 59)
+	# |  .------------- hour (0 - 23)
+	# |  |  .---------- day of month (1 - 31)
+	# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+	# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+	# |  |  |  |  |
+	# *  *  *  *  * user-name  command to be executed
 
-# Tarea para ejecutar un script a principio de mes.
-00 12 1..4 * Mon root script.sh
-```
+	# Tarea para ejecutar un script a principio de mes.
+	00 12 1..4 * Mon root script.sh
+	```
 
-Esta vez he obtado por defenir la tarea en el fichero general del `Cron`, 
-**/etc/crontab**. Simplemente para dejar constancia que ambas practicas 
-son posibles, la utilización de una o otra dependera de las necesidades 
-y criterios de trabajo. He decidido almacenar este script en un directrio
-que yo he creado, **/etc/crond.jobs** y ha consecuencia he añadido dicho
-directorio al **PATH** del `crontab`.
+	Esta vez he obtado por defenir la tarea en el fichero general del `Cron`, 
+	**/etc/crontab**. Simplemente para dejar constancia que ambas practicas 
+	son posibles, la utilización de una o otra dependera de las necesidades 
+	y criterios de trabajo. He decidido almacenar este script en un directrio
+	que yo he creado, **/etc/crond.jobs** y ha consecuencia he añadido dicho
+	directorio al **PATH** del `crontab`.
 
-**Systemd**
+- **Systemd**
 
-```
-File: /etc/systemd/system/exec-script.service
-# Servicio creado para sustituir la tarea en Cron con la siguiente 
-# sintaxis: 00 12 1..4 * Mon root script.sh
+	- **File: /etc/systemd/system/exec-script.service**
 
-[Unit]
-Description=Ejecuta un script.
+		```
+		# Servicio creado para sustituir la tarea en Cron con la siguiente 
+		# sintaxis: 00 12 1..4 * Mon root script.sh
 
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/sh -c '/etc/cron.jobs/script.sh'
+		[Unit]
+		Description=Ejecuta un script.
 
-///////////////////////////////////////////////////////////////////////
+		[Service]
+		Type=oneshot
+		ExecStart=/usr/bin/sh -c '/etc/cron.jobs/script.sh'
+		```
 
-File: /etc/systemd/system/exec-script.timer
-# Temporizador para ejecutar cada principio de mes, cuando uno de los 4
-# primeros dias cae en Lunes.
+	- **File: /etc/systemd/system/exec-script.timer**
 
-[Unit]
-Description=Temporizador de exec-script cada princio de mes.
+		```
+		# Temporizador para ejecutar cada principio de mes, cuando uno de los 4
+		# primeros dias cae en Lunes.
 
-[Timer]
-OnCalendar=Mon *-*-01..04 12:00:00
-Unit=exec-script.service
+		[Unit]
+		Description=Temporizador de exec-script cada princio de mes.
 
-[Install]
-WantedBy=basic.target
-```
+		[Timer]
+		OnCalendar=Mon *-*-01..04 12:00:00
+		Unit=exec-script.service
 
-En este ejemplo cabe destacar el parametro **OnCalendar=**, el cual 
-usaremos cuando quedramos concretar la ejecución de la tarea en una 
-fecha concreta.
+		[Install]
+		WantedBy=basic.target
+		```
+	En este ejemplo cabe destacar el parametro **OnCalendar=**, el cual 
+	usaremos cuando quedramos concretar la ejecución de la tarea en una 
+	fecha concreta.
 
-**Resultado**
+- **Resultado**
 
-```
-# Nota: Podria falsear los datos o cambiar los parametros de ejecución,
-pero creo que no es necesario. Mostrare cuando esta prevista la proxima
-ejecución y la ejecutaré manualmente.
+	```
+	# Nota: Podria falsear los datos o cambiar los parametros de ejecución,
+	pero creo que no es necesario. Mostrare cuando esta prevista la proxima
+	ejecución y la ejecutaré manualmente.
 
-# Proxima ejecución: Lunes 03/07/2017 a las 12:00:00
-[root@hostname ~]# systemctl list-timers 
-NEXT                          LEFT                  LAST                          PASSED       UNIT                         ACTIVATES
-lun 2017-07-03 12:00:00 CEST  1 months 18 days left n/a                           n/a          exec-script.timer            exec-script.service
+	# Proxima ejecución: Lunes 03/07/2017 a las 12:00:00
+	[root@hostname ~]# systemctl list-timers 
+	NEXT                          LEFT                  LAST                          PASSED       UNIT                         ACTIVATES
+	lun 2017-07-03 12:00:00 CEST  1 months 18 days left n/a                           n/a          exec-script.timer            exec-script.service
 
-# Ejecución manual:
-[root@hostname ~]# systemctl start exec-script.service
+	# Ejecución manual:
+	[root@hostname ~]# systemctl start exec-script.service
 
-# Resultado de la ejecución:
-[root@hostname ~]# journalctl -f
-may 15 12:48:56 localhost.localdomain systemd[1]: Starting Ejecuta un script....
-may 15 12:48:56 localhost.localdomain sh[2477]: Hello World!
-may 15 12:48:56 localhost.localdomain sh[2477]: Today is 05/15/17.
-may 15 12:48:56 localhost.localdomain kernel: audit: type=1130 audit(1494845336.948:253): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script com
-may 15 12:48:56 localhost.localdomain kernel: audit: type=1131 audit(1494845336.948:254): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script com
-may 15 12:48:56 localhost.localdomain audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script comm="systemd" exe="/usr/lib/sy
-may 15 12:48:56 localhost.localdomain audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script comm="systemd" exe="/usr/lib/sys
-may 15 12:48:56 localhost.localdomain systemd[1]: Started Ejecuta un script..
-```
+	# Resultado de la ejecución:
+	[root@hostname ~]# journalctl -f
+	may 15 12:48:56 localhost.localdomain systemd[1]: Starting Ejecuta un script....
+	may 15 12:48:56 localhost.localdomain sh[2477]: Hello World!
+	may 15 12:48:56 localhost.localdomain sh[2477]: Today is 05/15/17.
+	may 15 12:48:56 localhost.localdomain kernel: audit: type=1130 audit(1494845336.948:253): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script com
+	may 15 12:48:56 localhost.localdomain kernel: audit: type=1131 audit(1494845336.948:254): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script com
+	may 15 12:48:56 localhost.localdomain audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script comm="systemd" exe="/usr/lib/sy
+	may 15 12:48:56 localhost.localdomain audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=exec-script comm="systemd" exe="/usr/lib/sys
+	may 15 12:48:56 localhost.localdomain systemd[1]: Started Ejecuta un script..
+	```
 
 #### Ejemplo3
 
@@ -723,78 +727,79 @@ que no se queden encendidas las maquinas de los trabajadores después de
 la jornada laboral. La tarea se ejecutará los dias laborales 
 (lunes - viernes) a las 9:00 PM.
 
-**Cron**
+- **Cron**
 
-```
-SHELL=/bin/bash
-PATH=/etc/cron.jobs:/sbin:/bin:/usr/sbin:/usr/bin
-MAILTO=root
+	```
+	SHELL=/bin/bash
+	PATH=/etc/cron.jobs:/sbin:/bin:/usr/sbin:/usr/bin
+	MAILTO=root
 
-# For details see man 4 crontabs
+	# For details see man 4 crontabs
 
-# Example of job definition:
-# .---------------- minute (0 - 59)
-# |  .------------- hour (0 - 23)
-# |  |  .---------- day of month (1 - 31)
-# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
-# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
-# |  |  |  |  |
-# *  *  *  *  * user-name  command to be executed
+	# Example of job definition:
+	# .---------------- minute (0 - 59)
+	# |  .------------- hour (0 - 23)
+	# |  |  .---------- day of month (1 - 31)
+	# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+	# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+	# |  |  |  |  |
+	# *  *  *  *  * user-name  command to be executed
 
-00 21 * * 1..5 root /usr/sbin/shutdown
-```
+	00 21 * * 1..5 root /usr/sbin/shutdown
+	```
 
-**Systemd**
+- **Systemd**
 
-```
-File: /etc/systemd/system/shutdown.service
-# Servicio creado para sustituir la tarea en Cron con la siguiente 
-# sintaxis: 00 21 * * 1..5 root /usr/sbin/shutdown
+	- **File: /etc/systemd/system/shutdown.service**
 
-[Unit]
-Description=Apaga de forma segura el equipo.
+		```
+		# Servicio creado para sustituir la tarea en Cron con la siguiente 
+		# sintaxis: 00 21 * * 1..5 root /usr/sbin/shutdown
 
-[Service]
-Type=oneshot
-ExecStart=/usr/sbin/shutdown
+		[Unit]
+		Description=Apaga de forma segura el equipo.
 
-///////////////////////////////////////////////////////////////////////
+		[Service]
+		Type=oneshot
+		ExecStart=/usr/sbin/shutdown
+		```
+	
+	- **File: /etc/systemd/system/shutdown.timer**
 
-File: /etc/systemd/system/shutdown.timer
-# Temporizador para ejecutar en dias laborables, de lunes a viernes, a las
-# 21:00.
+		```
+		# Temporizador para ejecutar en dias laborables, de lunes a viernes, a las
+		# 21:00.
 
-[Unit]
-Description=Temporizador de shutdown para los dias laborales (Mon-Fri) a 9PM.
+		[Unit]
+		Description=Temporizador de shutdown para los dias laborales (Mon-Fri) a 9PM.
 
-[Timer]
-OnCalendar=Mon-Fri *-*-* 21:00:00
-Unit=shutdown.service
+		[Timer]
+		OnCalendar=Mon-Fri *-*-* 21:00:00
+		Unit=shutdown.service
 
-[Install]
-WantedBy=basic.target
+		[Install]
+		WantedBy=basic.target
+		```
 
-```
+- **Resultado**
 
-**Resultado**
+	```
+	# NOTA: Mostraré su proxima ejecución y el registro del journalctl.
 
-```
-# NOTA: Mostraré su proxima ejecución y el registro del journalctl.
+	# Proxima ejecución:
+	[root@hostname ~]# systemctl list-timers 
+	NEXT                           LEFT                  LAST                          PASSED    UNIT                         ACTIVATES
+	mar 2017-05-16 21:00:00 CEST   11h left              n/a                           n/a       shutdown.timer               shutdown.service
 
-# Proxima ejecución:
-[root@hostname ~]# systemctl list-timers 
-NEXT                           LEFT                  LAST                          PASSED    UNIT                         ACTIVATES
-mar 2017-05-16 21:00:00 CEST   11h left              n/a                           n/a       shutdown.timer               shutdown.service
-
-# Registro journalctl:
-[root@hostname ~]# journalctl -f
-may 16 09:41:21 localhost.localdomain systemd[1]: Starting Apaga de forma segura el equipo....
-may 16 09:41:21 localhost.localdomain systemd-logind[636]: Creating /run/nologin, blocking further logins...
-may 16 09:41:21 localhost.localdomain audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=shutdown comm="systemd" exe="/usr/lib/syste
-may 16 09:41:21 localhost.localdomain audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=shutdown comm="systemd" exe="/usr/lib/system
-may 16 09:41:21 localhost.localdomain shutdown[1857]: Shutdown scheduled for dt 2017-05-16 09:42:21 CEST, use 'shutdown -c' to cancel.
-may 16 09:41:21 localhost.localdomain systemd[1]: Started Apaga de forma segura el equipo..
-```
+	# Registro journalctl:
+	[root@hostname ~]# journalctl -f
+	may 16 09:41:21 localhost.localdomain systemd[1]: Starting Apaga de forma segura el equipo....
+	may 16 09:41:21 localhost.localdomain systemd-logind[636]: Creating /run/nologin, blocking further logins...
+	may 16 09:41:21 localhost.localdomain audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=shutdown comm="systemd" exe="/usr/lib/syste
+	may 16 09:41:21 localhost.localdomain audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=shutdown comm="systemd" exe="/usr/lib/system
+	may 16 09:41:21 localhost.localdomain shutdown[1857]: Shutdown scheduled for dt 2017-05-16 09:42:21 CEST, use 'shutdown -c' to cancel.
+	may 16 09:41:21 localhost.localdomain systemd[1]: Started Apaga de forma segura el equipo..
+	```
 
 ### Herramientas
 
@@ -835,11 +840,12 @@ fichero binario que se encuentre en uno de sus directorios assignados se
 ejecutará en el inicio o cada vez que se produzca un 
 `systemctl daemon-reload`. Para mas información acerca de esta 
 herramienta consultar el `man systemd.generator` o 
-[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.generator.html)
+[Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.generator.html).
 
 **Ejemplo de los resultados generados**
 
 - **Cron**
+
 	```
 	# Archivo /etc/crontab
 	[root@hostname ~]# cat /etc/crontab 
@@ -860,9 +866,11 @@ herramienta consultar el `man systemd.generator` o
 
 	*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
 	```
+
 - **Systemd**
 
 	- **File: .service**
+
 		```
 		[Unit]
 		Description=[Cron] "*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log"
@@ -880,7 +888,9 @@ herramienta consultar el `man systemd.generator` o
 		Environment="PATH=/etc/cron.jobs:/sbin:/bin:/usr/sbin:/usr/bin"
 		Environment="SHELL=/bin/bash"
 		```
+
 	- **File: .timer**
+
 		```
 		[Unit]
 		Description=[Timer] "*/2 * * * * root /usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log"
@@ -894,7 +904,9 @@ herramienta consultar el `man systemd.generator` o
 		Unit=cron-e4d207c1785ce315b682c502550a0b47.service
 		OnCalendar= *-*-* *:0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,59:00
 		```
+
 	- **File: .sh**
+
 		```
 		#!/bin/bash
 		/usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
