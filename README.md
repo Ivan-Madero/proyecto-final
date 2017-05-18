@@ -15,9 +15,7 @@ hacerlo.
 Para ello documentaremos la información de uso de `Cron` y `atd`, donde
 se almacenan los archivos de configuración, la sintaxis para su uso y
 que configuración es necesaria para substiruir el protocolo `SMTP` por 
-`journal` centralizando los **logs** en un solo host de la red. Para 
-apoyar a la documentación elaboraremos un conjunto de dockers con dichas
-configuraciones.
+`journal` centralizando los **logs** en un solo host de la red.
 
 ## Tabla de contenidos
 
