@@ -23,18 +23,18 @@ ejemplo práctico para comprender mejor la transformación.
 
 ## Tabla de contenidos
 
-1. [Cron y atd](Systemd_puede_substituir_a_cron.md#cron-y-atd)\
-	1.1. [Cron](Systemd_puede_substituir_a_cron.md#cron)\
-	1.2. [At](Systemd_puede_substituir_a_cron.md#atd)
-2. [Substituir el protocolo SMTP por Journal en Cron](Systemd_puede_substituir_a_cron.md#substituit-el-protocolo-smtp-por-journal-en-cron)\
-	2.1. [Configurar el output de cron en journal](Systemd_puede_substituir_a_cron.md#configurar-el-output-de-cron-en-journal)\
-	2.2. [Centralizar los logs](Systemd_puede_substituir_a_cron.md#centralizar-los-logs)
-3. [Substituir Cron por Systemd.timers](Systemd_puede_substituir_a_cron.md#substituir-cron-por-systemdtimers)\
+1. [Cron y atd](cron_y_atd.md#cron-y-atd)\
+	1.1. [Cron](cron_y_atd.md#cron)\
+	1.2. [At](cron_y_atd.md#atd)
+2. [Substituir el protocolo SMTP por Journal en Cron](Substituir_el_protocolo_SMTP_en_Cron.md#substituit-el-protocolo-smtp-por-journal-en-cron)\
+	2.1. [Configurar el output de cron en journal](Substituir_el_protocolo_SMTP_en_Cron.md#configurar-el-output-de-cron-en-journal)\
+	2.2. [Centralizar los logs](Substituir_el_protocolo_SMTP_en_Cron.md#centralizar-los-logs)
+3. [Substituir Cron por Systemd.timers](Systemd_puede_substituir_a_cron.md#substituir-cron-por-systemd)\
 	3.1. [Archivos .service](Systemd_puede_substituir_a_cron.md#archivos-service)\
 	3.2. [Archivos .timer](Systemd_puede_substituir_a_cron.md#archivos-timer)\
 	3.3. [Gestión de los temporizadores](Systemd_puede_substituir_a_cron.md#gesti%C3%B3n-de-los-temporizadores)\
 	3.4. [Transformar tareas de Cron a Systemd](Systemd_puede_substituir_a_cron.md#transformar-tareas-de-cron-a-systemd)\
 	3.5. [Herramienta para transformar tareas de Cron a Systemd](Systemd_puede_substituir_a_cron.md#herramientas)
-4. [Conclusion Personal](Systemd_puede_substituir_a_cron.md#conclusión-personal)
+4. [Conclusion Personal](Conclusion_personal.md#conclusión-personal)
 
 EXTRA. [WebGrafia](WebGrafia.md#webgrafia)
