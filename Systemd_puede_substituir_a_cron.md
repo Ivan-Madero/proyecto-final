@@ -598,3 +598,7 @@ herramienta consultar el `man systemd.generator` o
 		#!/bin/bash
 		/usr/bin/echo "$(/usr/bin/date) - $USER - cron" >> /tmp/date.log
 		```
+
+---
+
+[Volver a la tabla de contenidos](README.md#tabla-de-contenidos)
