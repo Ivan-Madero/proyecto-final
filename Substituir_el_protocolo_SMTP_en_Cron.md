@@ -8,7 +8,7 @@ centralizaremos el log de diferentes host en uno solo.
 
 ## Configurar el OUTPUT de Cron en Journal
 
-En las anteriores versiones de `Cron` se redirigia el output al syslog 
+En las anteriores versiones de `Cron` se redirigía el output al syslog 
 mediante el uso de `logger`.
 
 ```
@@ -16,17 +16,17 @@ mediante el uso de `logger`.
 */2 * * * * echo $USER 2>&1 >> /tmp/date.log | logger
 ```
 
-Actualmente en las versiones actuales de `Cron` este esta preparado para
+Actualmente en las versiones actuales de `Cron` este está preparado para
 que el **daemon** pueda ser configurado para redirigir el output a
-syslog, sigue sin conocer la existencia del `Journal`, pero como este
-escucha por el puerto que lo hacia syslog cara a los programas es como
+syslog, aunque sigue sin conocer la existencia del `Journal`, pero como este
+escucha por el puerto que lo hacía syslog cara a los programas, es como
 si lo siguieran haciendo. La configuración necesaria actual es muy
 simple.
 
 Modificaremos el fichero **/etc/sysconfig/crond**, este contiene la
-configuracion de `Cron Daemon`.
+configuración de `Cron Daemon`.
 En el argumento `CRONDARGS=` añadiremos la opción **-s** para que la
-salida se redirija al syslog y añadiremso **-m off** para deshabilitar
+salida se redirija al syslog y añadiremos **-m off** para deshabilitar
 la salida por mail. Tras modificar el archivo reiniciaremos el servicio
 del `Cron`.
 
@@ -43,17 +43,17 @@ CRONDARGS= -s -m off
 ## Centralizar los logs
 
 Una vez realizada la tarea de configurar el **output** de `Cron` al 
-`Journal`, toca configurar las maquinas para un entorno de trabajo
+`Journal`, toca configurar las máquinas para un entorno de trabajo
 adequado, con esto me refiero a centralizar los logs del `Journal` en
 un solo host de la red, para facilitar al administrador el trabajo de
 administrar la red. La configuración por defecto que proporciona la 
 herramienta `systemd-journal-remote` y `systemd-journal-upload` carga 
-integramente el fichero de log de la maquina local (cliente), en la
-maquina remota (servidor), esta ación esta pensada para ejecutarse una 
-sola vez en el arranque de la maquina cliente. Si fuera necesario se 
-podria ejecutar manualmente la carga del fichero en el cliente, pero no 
-es recomendable lanzarlo periodicamente en plazos de tiempo cortos, 
-podria provocar grandes saturaciones en la red de trabajo.
+íntegramente el fichero de log de la máquina local (cliente), en la
+máquina remota (servidor), esta acción está pensada para ejecutarse una 
+sola vez en el arranque de la máquina cliente. Si fuera necesario se 
+podría ejecutar manualmente la carga del fichero en el cliente, pero no 
+es recomendable lanzarlo periódicamente en plazos de tiempo cortos, 
+podría provocar grandes saturaciones en la red de trabajo.
 
 ### Configuración Servidor
 
@@ -87,7 +87,7 @@ puerto por defecto es el 19532.
 	```
 4. Revisar el fichero de configuración del servicio, podemos encontrarlo
 en: **/lib/systemd/system/systemd-journal-remote.service**. Si utilizamos
-el servicio via http debemos substituir el parametro por defecto 
+el servicio via http debemos sustituir el parámetro por defecto 
 `--listen-https=-3` por `--listen-http=-3`.
 	```
 	#  This file is part of systemd.
@@ -116,12 +116,12 @@ el servicio via http debemos substituir el parametro por defecto
 	[Install]
 	Also=systemd-journal-remote.socket
 	```
-5. Crear la carpeta definida en parametro `--output=` y cambair su 
+5. Crear la carpeta definida en parámetro `--output=` y cambair su 
 propietario por **systemd-journal-remote**. 
 `# mkdir /var/log/journal/remote ; 
 chown systemd-journal-remote /var/log/journal/remote`.
 6. Reinicia el socket: `# systemctl restart systemd-journal-remote.socket`.
-7. Actualiza los cambion en los servicios: `# systemctl daemon-reload`.
+7. Actualiza los cambios en los servicios: `# systemctl daemon-reload`.
 
 ### Configuración Cliente
 
@@ -131,7 +131,7 @@ La configuración necesaria en el cliente es la siguiente:
 systemd-journal-remote`.
 2. Editar el archivo de configuración, lo podemos encontrar en: 
 **/etc/systemd/journal-upload.conf**. Debemos configurar el destino en 
-el parametro `URL=` con el protocolo http o https y la ip y puerto del 
+el parámetro `URL=` con el protocolo http o https y la ip y puerto del 
 servidor.
 	```
 	[Upload]
@@ -145,8 +145,8 @@ servidor.
 
 ### Resultado de la configuración
 
-Para acceder a los logs del journal de las otras maquinas cliente 
-deberemos llamar a `journalctl` con el paramentro `--directory 
+Para acceder a los logs del journal de las otras máquinas cliente 
+deberemos llamar a `journalctl` con el parámetro `--directory 
 /var/log/journal/remote`, que es el directorio que hemos definido en 
 **/lib/systemd/system/systemd-journal-remote.service** anteriormente.
 ```
