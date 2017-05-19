@@ -31,3 +31,7 @@ del `man`.
 Principalmente las webs anteriormente nombradas me han ayudado a 
 encaminar el camino a seguir para obtener el objetivo del proyecto, pero
 principalmente me he apoyado en el `man`. 
+
+---
+
+[Volver a la tabla de contenidos](README.md#tabla-de-contenidos)
