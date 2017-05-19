@@ -7,14 +7,14 @@ Los temporizadores tienen soporte incorporado para eventos de tiempo de
 calendario, eventos de tiempo monótonos y se puede ejecutar de forma 
 asíncrona.
 
-Como cualquier tecnologia tiene sus ventajas y desventajas:
+Como cualquier tecnología tiene sus ventajas y desventajas:
 
 **Ventajas**
 - Se pueden iniciar fácilmente independientemente de los temporizadores.
-- Se pueden configurar para ejecutarse en un entorno especifico.
+- Se pueden configurar para ejecutarse en un entorno específico.
 - Se pueden adjuntar trabajos a **cgroups**.
 - Se pueden configurar para depender de otras unidades `Systemd`.
-- Los trabajos se registran en el diario de `Systemd` para facilitat la
+- Los trabajos se registran en el diario de `Systemd` para facilitar la
 depuración.
 
 **Desventajas**
@@ -28,7 +28,7 @@ debemos aprender a definir los archivos **.service** y los **.timer**.
 
 ## Archivos .service
 
-Crearemos estos fichero en el directorio: **/etc/systemd/system/**.
+Crearemos estos ficheros en el directorio: **/etc/systemd/system/**.
 
 ```
 # Ejemplo de fichero .service
@@ -64,22 +64,22 @@ Algunos elementos que pueden definirse en este apartado son:
 - **Description=** Una cadena de texto que describe la unidad, la
 descripción debe contener un nombre que signifique algo para el usuario
 final. Ej. "Apache2 Web Server" es un buen ejemplo, no es demasiado 
-genérico y tampoco demasiado especifico.
+genérico y tampoco demasiado específico.
 - **Documentation=** Una lista de URLs separados por espacios 
 referenciando la documentación o la configuración de la unidad.
 - **Requires=** Configura dependencias de otras unidades, si estas no 
-estan activadas la unidad no podra activarse.
-- **OnFailure=** Lista de unidades que se activaran cuando esta entre
+están activadas la unidad no podrá activarse.
+- **OnFailure=** Lista de unidades que se activarán cuando esta entre
 en estado fallido.
 - **SourcePath=** Una ruta de acceso a un archivo de configuración de 
 esta unidad.
 
-Para mas información recomiendo consultar el `man 5 systemd.unit` o 
+Para más información recomiendo consultar el `man 5 systemd.unit` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BUnit%5D%20Section%20Options).
 
 ### \[Service\]
 
-Este apartado es especifico de los achivos de unidades **.service**. Y 
+Este apartado es específico de los achivos de unidades **.service**. Y 
 puede contener algunos de los siguientes elementos:
 - **ExecStart=** Comandos con sus argumentos que se ejecutan cuando se 
 inicia este servicio.
@@ -87,7 +87,7 @@ inicia este servicio.
 `ExecStart=`.
 - **ExecStartPost=** Comando adicional que se ejecutará después del 
 `ExecStart=`.
-- **ExecReload=** Comando que se ejecutará cuando se realize un reload.
+- **ExecReload=** Comando que se ejecutará cuando se realice un reload.
 - **ExecStop=** Comandos a ejecutar para detener el servicio iniciado.
 - **Type=** Configura el tipo de arranque del proceso para esta unidad 
 de servicio. `simple`, `forking`, `oneshot`, `dbus`, `notify` o `idle`.
@@ -102,7 +102,7 @@ exitoso 0 y las señales SIGHUP, SIGINT, SIGTERM y SIGPIPE.
 - **FailureAction=** Configura la acción a realizar cuando el servicio 
 entra en un estado fallido. 
 
-Para mas información recomiendo consultar el `man systemd.service` o 
+Para más información recomiendo consultar el `man systemd.service` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options).
 
 ### \[Install\]
@@ -113,24 +113,24 @@ interpretada por `Systemd` durante el tiempo de ejecución, es
 interpretada al usarse los comandos `# systemctl enable/disbale`.
 
 La lista de elementos que puede contener este apartado es el siguiente:
-- **Alias=** Una lista separada por espacios de los nombres que tendra
+- **Alias=** Una lista separada por espacios de los nombres que tendrá
 la unidad al instalarse. No compatible con las unidades de tipo: mount, 
 slice, swap y automount. 
-- **WantedBy=** Se creara un enlace simbolico de la unidad en los .wants
-especificados, puede aparecer mas de una vez o contener una lista 
+- **WantedBy=** Se creará un enlace simbólico de la unidad en los .wants
+especificados, puede aparecer más de una vez o contener una lista 
 separada por espacios.
-- **RequiredBy=** Se creara un enlace simbolico de la unidad en los 
-.requires especificados, puede aparecer mas de una vez o contener una 
+- **RequiredBy=** Se creará un enlace simbólico de la unidad en los 
+.requires especificados, puede aparecer más de una vez o contener una 
 lista separada por espacios.
-- **Also=** Lista de las unidades adicionales que se instalaran/desintalaran
+- **Also=** Lista de las unidades adicionales que se instalarán/desintalarán
 juntamente con esta unidad.
 
-Para mas información recomiendo consultar el `man 5 systemd.unit` o 
+Para más información recomiendo consultar el `man 5 systemd.unit` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BInstall%5D%20Section%20Options).
 
 ## Archivos .timer
 
-Crearemos estos fichero en el directorio: **/etc/systemd/system/**.
+Crearemos estos ficheros en el directorio: **/etc/systemd/system/**.
 
 ```
 # Ejemplo de fichero .timer
@@ -152,7 +152,7 @@ WantedBy=basic.target
 
 Como observar este temporizador pertenece al ejemplo mostrado del fichero
 **.service**. En este se indica que se ejecutará por primera vez a los
-10min desde que la maquina fue arrancada, y posteriormente cada 60min (1h).
+10min desde que la máquina fue arrancada, y posteriormente cada 60min (1h).
 
 Los ficheros de unidades de tipo **.timer** se componen de tres 
 apartados \[Unit\], \[Timer\] y \[Install\].
@@ -161,46 +161,46 @@ apartados \[Unit\], \[Timer\] y \[Install\].
 
 Los archivos de unidades de tipo **.timer** deben contener el apartado 
 \[Timer\] que define las configuraciones de los temporizadores, esto 
-tienen unos elementos especificos, algunos de esto son:
+tienen unos elementos específicos, algunos de esto son:
 
 - **OnActiveSec=** Define un tiempo en relación con el momento en que se
 activa el temporizador; `# systemctl start .timer`.
-- **OnBootSec=** Define un tiempo en relación a cuando la maquina 
+- **OnBootSec=** Define un tiempo en relación a cuando la máquina 
 arranca.
 - **OnStartupSec=** Define un tiempo en relación a la primera vez que se
-arranco systemd.
-- **OnUnitActiveSec=** Define un tiempo en relación a la ultima vez que 
-se activo.
-- **OnUnitInactiveSec=** Define un tiempo en relación a la ultima vez en
-que se desactivo.
+arrancó systemd.
+- **OnUnitActiveSec=** Define un tiempo en relación a la última vez que 
+se activó.
+- **OnUnitInactiveSec=** Define un tiempo en relación a la última vez en
+que se desactivó.
 - **OnCalendar=** Define temporizadores en tiempo real con expresiones
-de eventos de calendario. Para mas información sombre la sintaxis
+de eventos de calendario. Para más información sombre la sintaxis
 consultar el `man 7 systemd.time`o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.time.html)
 - **AccuracySec=** Define el tiempo en el que debe transcurir, el tiempo
-que permanecera encendido.
+que permanecerá encendido.
 - **Unit=** La unidad se activará cuando transcurra este temporizador,
 la unidad no puede ser **.timer**, si no se especifica la unidad, este
 valor pretederminado es un servicio que tiene el mismo nombre de la
 unidad del temporizador.
 - **Persistent=** Es una valor booleano, si este es `true` cuando se 
 active el temporizador si el tiempo de activación ya ha transcurrido se 
-ejecutara immediatamente. Al usar `OnCalendar=` el valor por defecto es 
+ejecutará immediatamente. Al usar `OnCalendar=` el valor por defecto es 
 `false`.
 - **WakeSystem=** Toma un argumento booleano. Si es cierto, un 
 temporizador transcurrido hará que el sistema reanude su suspensión, 
 si se suspende y si el sistema lo admite. El valor por defecto es 
 `false`.
 
-Para mas información consulte el `man sytemd.timer` o 
+Para más información consulte el `man sytemd.timer` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.timer.html#Options).
 
 ## Gestión de los temporizadores
 
 Una vez creados los temporizadores, podemos ponerlos en marcha usando el
-comando `# systemctl start name.timer`, cuando la maquina se apague este 
+comando `# systemctl start name.timer`, cuando la máquina se apague este 
 temporizador será apagado, si queremos que sea permanente deberemos 
-realizar el siguiente comando, para cada vez que la maquina se encienda 
+realizar el siguiente comando, para cada vez que la máquina se encienda 
 se active el temporizador: `# systemctl enable name.timer`.
 
 Para detenerlo usaremos: `# systemctl stop name.timer`. Y para deshabilitar 
@@ -219,16 +219,16 @@ Tue 2017-05-09 00:00:00 CEST  11h left   Mon 2017-05-08 09:06:24 CEST  3h 53min 
 Tue 2017-05-09 09:40:01 CEST  20h left   Mon 2017-05-08 09:40:01 CEST  3h 19min ago systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service
 ```
 
-Con este comando podemos ver la proxima activación, cuanto queda para 
-esta, la ultima activación, cuanto ha pasado desde esta, el `.timer` y 
+Con este comando podemos ver la próxima activación, cuánto queda para 
+esta, la última activación, cuánto ha pasado desde esta, el `.timer` y 
 el `.service`.
 
 ## Transformar tareas de Cron a Systemd
 
 Para poder transformar una tarea definida por `Cron` a `Systemd` debemos
-analizar la tarea y dividarla en que tiene que hacer y cuando lo debe 
+analizar la tarea y dividarla en qué tiene que hacer y cuándo lo debe 
 hacer. Lo que debe hacer se tendrá que definir en un fichero de unidad
-de tipo **.service**, mientras que, el cuando lo debe hacer, debe
+de tipo **.service**, mientras que, el cuándo lo debe hacer, debe
 definirse en un fichero de unidad tipo **.timer**. A continuación
 expondré algunos ejemplos:
 
@@ -236,8 +236,8 @@ expondré algunos ejemplos:
 
 En este primer ejemplo obaservaremos un caso muy simple, un `echo` que
 cada 2 min escribe en un fichero que se encuentra en **/tmp/date.log**,
-una linea con la fecha y hora, el usuario y la palabra cron. Esta tarea
-esta configurada en el cron personal de un usuario, usaremos el comando 
+una línea con la fecha y hora, el usuario y la palabra cron. Esta tarea
+está configurada en el cron personal de un usuario, usaremos el comando 
 `crontab -e` para editarlo.
 
 - **Cron**
@@ -249,7 +249,7 @@ esta configurada en el cron personal de un usuario, usaremos el comando
 
 - **Systemd**
 
-	Para hacer la conversion de `Cron` a `Systemd` crearemos dos ficheros en
+	Para hacer la conversión de `Cron` a `Systemd` crearemos dos ficheros en
 	**/etc/systemd/system/**, con el nombre de **echo_date.service** y 
 	**echo_date.timer**.
 
@@ -310,9 +310,9 @@ esta configurada en el cron personal de un usuario, usaremos el comando
 
 ### Ejemplo2
 
-En este segundo ejemplo observaremos un caso en que se ejecura un script,
+En este segundo ejemplo observaremos un caso en que se ejecutará un script,
 el cual realizará algunas acciones, cada mes a las 12:00, si alguno de 
-los cuatro primeros dias del mes caen en lunes.
+los cuatro primeros días del mes caen en lunes.
 
 - **Cron**
 
@@ -338,9 +338,9 @@ los cuatro primeros dias del mes caen en lunes.
 	```
 
 	Esta vez he obtado por defenir la tarea en el fichero general del `Cron`, 
-	**/etc/crontab**. Simplemente para dejar constancia que ambas practicas 
-	son posibles, la utilización de una o otra dependera de las necesidades 
-	y criterios de trabajo. He decidido almacenar este script en un directrio
+	**/etc/crontab**. Simplemente para dejar constancia que ambas prácticas 
+	son posibles, la utilización de una u otra dependerá de las necesidades 
+	y criterios de trabajo. He decidido almacenar este script en un directorio
 	que yo he creado, **/etc/crond.jobs** y ha consecuencia he añadido dicho
 	directorio al **PATH** del `crontab`.
 
@@ -364,7 +364,7 @@ los cuatro primeros dias del mes caen en lunes.
 
 		```
 		# Temporizador para ejecutar cada principio de mes, cuando uno de los 4
-		# primeros dias cae en Lunes.
+		# primeros días cae en Lunes.
 
 		[Unit]
 		Description=Temporizador de exec-script cada princio de mes.
@@ -383,11 +383,11 @@ los cuatro primeros dias del mes caen en lunes.
 - **Resultado**
 
 	```
-	# Nota: Podria falsear los datos o cambiar los parametros de ejecución,
-	pero creo que no es necesario. Mostrare cuando esta prevista la proxima
+	# Nota: Podría falsear los datos o cambiar los parámetros de ejecución,
+	pero creo que no es necesario. Mostraré cuándo está prevista la próxima
 	ejecución y la ejecutaré manualmente.
 
-	# Proxima ejecución: Lunes 03/07/2017 a las 12:00:00
+	# Próxima ejecución: Lunes 03/07/2017 a las 12:00:00
 	[root@hostname ~]# systemctl list-timers 
 	NEXT                          LEFT                  LAST                          PASSED       UNIT                         ACTIVATES
 	lun 2017-07-03 12:00:00 CEST  1 months 18 days left n/a                           n/a          exec-script.timer            exec-script.service
@@ -409,9 +409,9 @@ los cuatro primeros dias del mes caen en lunes.
 
 ### Ejemplo3
 
-Este ultimo ejemplo que expongo será útil para entornos de trabajo, para 
-que no se queden encendidas las maquinas de los trabajadores después de 
-la jornada laboral. La tarea se ejecutará los dias laborales 
+Este último ejemplo que expongo será útil para entornos de trabajo, para 
+que no se queden encendidas las máquinas de los trabajadores después de 
+la jornada laboral. La tarea se ejecutará los días laborales 
 (lunes - viernes) a las 9:00 PM.
 
 - **Cron**
@@ -454,11 +454,11 @@ la jornada laboral. La tarea se ejecutará los dias laborales
 	- **File: /etc/systemd/system/shutdown.timer**
 
 		```
-		# Temporizador para ejecutar en dias laborables, de lunes a viernes, a las
+		# Temporizador para ejecutar en días laborables, de lunes a viernes, a las
 		# 21:00.
 
 		[Unit]
-		Description=Temporizador de shutdown para los dias laborales (Mon-Fri) a 9PM.
+		Description=Temporizador de shutdown para los días laborales (Mon-Fri) a 9PM.
 
 		[Timer]
 		OnCalendar=Mon-Fri *-*-* 21:00:00
@@ -494,13 +494,13 @@ la jornada laboral. La tarea se ejecutará los dias laborales
 
 [Pagina Web Oficial](https://github.com/systemd-cron/systemd-cron-next)
 
-En la pagina web oficial contiene el material y la información necesaria
+En la página web oficial contiene el material y la información necesaria
 para la instalación y utilización de este herramienta que su función es 
 analizar las tareas definidas en `Crond`, y adecuarlas para que sean 
 ejecutadas por `Systemd`. Para su completo funcionamiento requiere de
 `run-parts` que normalmente viene incluido con el paquete `crontabs`.
 
-Es la version actualizada del paquete `systemd-crontab-generator`. 
+Es la versión actualizada del paquete `systemd-crontab-generator`. 
 
 **NOTA**: Es una versión beta, el autor advierte que no se hace cargo si 
 funciona erroneamente.
@@ -509,23 +509,23 @@ Hay dos formas de utilizar esta herramienta:
 
 - **Manual**: Puedes usarla de forma manual llamando al comando 
 `# /usr/local/lib/systemd/system-generators/systemd-crontab-generator outuput_folder`.
-Este analiza los ficheros de tareas de `Cron` y genera su conversion para
+Este analiza los ficheros de tareas de `Cron` y genera su conversión para
 `Systemd`. Es recomendable usar rutas absolutas para que los archivos 
 generados funcionen correctamente, y la mejor ruta para que el sistema 
 pueda hacer uso de ellos es: **/etc/systemd/system/**. El autor recomienda
 no usarlo manualmente.
 
-- **Automaticamente**: Para usarlo de esta forma simplemente
+- **Automáticamente**: Para usarlo de esta forma simplemente
 ejecutamos el comando: `# systemctl enable cron.target`. Cuando inicie 
 el sistema activará todos los **.timer** definidos en 
 **/run/systemd/generator/**. Los ficheros que contiene este directorio 
-son creados de forma automatica por el ejecutable 
+son creados de forma automática por el ejecutable 
 `systemd-crontab-generator`, esto sucede cuando el sistema inicia o se 
 produce un `systemctl daemon-reload`. Esto es posible gracias a una 
 herramienta que contine `Systemd`, `systemd.generator`, que cualquier 
-fichero binario que se encuentre en uno de sus directorios assignados se 
+fichero binario que se encuentre en uno de sus directorios asignados se 
 ejecutará en el inicio o cada vez que se produzca un 
-`systemctl daemon-reload`. Para mas información acerca de esta 
+`systemctl daemon-reload`. Para más información acerca de esta 
 herramienta consultar el `man systemd.generator` o 
 [Manual Web](https://www.freedesktop.org/software/systemd/man/systemd.generator.html).
 
