@@ -117,3 +117,7 @@ at > echo "Feliz Año Nuevo" >> /dev/tty1
 **DD.MM.AA**, **MMDDAA**, **MM/DD/AA**, **AA-MM-DD**, fechas en ingles
 ( mes dia año: **june 17 2018** ), **today**, **tomorrow**, dias de la
 semana ( **monday**, **sunday**, etc. ).
+
+---
+
+[Volver a la tabla de contenidos](README.md#tabla-de-contenidos)
