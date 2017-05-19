@@ -2,11 +2,11 @@
 
 **Cron** :
 Es la herramienta encargada de ejecutar tareas programadas y recurrentes
-(todos los dias, todas las semanas, etc.).
+(todos los días, todas las semanas, etc.).
 
 **Atd** :
 Es la herramienta encargada que ejecuta una sola vez en un momento 
-especifico un programa concreto.
+específico un programa concreto.
 
 ## Archivos de configuración
 
@@ -17,11 +17,11 @@ el comando `$crontab -e`, se almacena en
 **/var/spool/cron/crontabs/$USER**.
 
 ```
-Se puede configurar que usuarios tiene privilegios para poder usar cron,
+Se puede configurar qué usuarios tienen privilegios para poder usar cron,
 hay dos formas posibles:
 - Con una lista blanca, /etc/cron.allow, donde solo los usuarios
-indicados podran usar cron.
-- O con una lista negra, donde todos menos los usuarios indicados podran 
+indicados podrán usar cron.
+- O con una lista negra, donde todos menos los usuarios indicados podrán 
 usar cron.
 ```
 
@@ -41,7 +41,7 @@ cron.daily/   cron.hourly/  crontab
 
 ```
 # Archivo crontab / formato
-# min  hora  dia  mes  dds [usuario] programa
+# min  hora  día  mes  dds [usuario] programa
 
 # Ejemplos
 # Hace algo todas las noches a las 22:30
@@ -50,20 +50,20 @@ cron.daily/   cron.hourly/  crontab
 # Hace algo de Lunes a Viernes a las 08:00
 00  08  *  *  1-5  /bin/hacealgo
 
-# Hacer algo el Lunes, Miercoles y Viernes a las 12:30
+# Hace algo el Lunes, Miércoles y Viernes a las 12:30
 30  12  *  *  1,3,5  /bin/hacealgo
 
-# Hacer algo los dias pares a las 09:00
+# Hace algo los días pares a las 09:00
 00  09  */2  *  *  /bin/hacealgo
 
-# Hacer algo después de cada reinicio
+# Hace algo después de cada reinicio
 @reboot  /bin/hacealgo
 ```
 
 **Campos:**
 - el valor del minuto (0 a 59)
 - el valor de la hora (0 a 23)
-- el valor del dia del mes (1 a 31)
+- el valor del día del mes (1 a 31)
 - el valor del mes (1 a 12)
 - el valor de los días de la semana ( 0 a 7 [domingo = 0/7, lunes = 1, 
 etc.]; Sun, Mon, etc. )
@@ -74,21 +74,21 @@ etc.]; Sun, Mon, etc. )
 - **@yearly**: Una vez por año (1 de Enero a las 00:00)
 - **@monthly**: Una vez por mes (1r día del mes a las 00:00)
 - **@weekly**: Una vez por semana (Domingo a las 00:00)
-- **@daily**: Una vez por dia (a las 00:00)
+- **@daily**: Una vez por día (a las 00:00)
 - **@hourly**: Una vez por hora (al principio de cada hora)
 - **@reboot**: Justo después de iniciar el equipo
 
 ### Atd
 
 Su funcionalidad es muy parecida a la del `Cron`, la diferencia es que
-esta diseñado para ejecutar una tarea programada de un solo uso.
+está diseñado para ejecutar una tarea programada de un solo uso.
 
 Las tareas programadas se almacenan en **/var/spool/at/**, sin importar
-el usuario que las ha configurado, estas se ejecutaran en nombre del
+el usuario que las ha configurado, estas se ejecutarán en nombre del
 usuario que las ha configurado.
 
 A diferencia del `Cron`, `at` no tiene un archivo general para todo el
-sistema, y para configurar las nuevas tareas se deben hacer através de
+sistema, y para configurar las nuevas tareas se deben hacer a través de
 la orden `$at`, aun así tiene la misma funcionalidad referente a los 
 privilegios de uso de los usurios que tiene `Cron` ( **/etc/at.deny** ; 
 **/etc/at.allow** ).
@@ -102,7 +102,7 @@ at> orden2
 at> etc ( Fin = Ctrl + D )
 
 # Ejemplos
-$ at 09:52		# La proxima vez que el reloj marque las 09:52
+$ at 09:52		# La próxima vez que el reloj marque las 09:52
 at> echo "algo" >> /tmp/algo.txt
 
 $ at 00:01 01.01.2018		# Se ejecutará el 1 de Enero del 2018 a las 10.
@@ -114,8 +114,8 @@ at > echo "Feliz Año Nuevo" >> /dev/tty1
 **noon**(12:00), **now**(actual), **teatime**(16:00).
 
 - **Fecha**: La fecha se puede indicar en diferentes formatos; 
-**DD.MM.AA**, **MMDDAA**, **MM/DD/AA**, **AA-MM-DD**, fechas en ingles
-( mes dia año: **june 17 2018** ), **today**, **tomorrow**, dias de la
+**DD.MM.AA**, **MMDDAA**, **MM/DD/AA**, **AA-MM-DD**, fechas en inglés
+( mes día año: **june 17 2018** ), **today**, **tomorrow**, días de la
 semana ( **monday**, **sunday**, etc. ).
 
 ---
