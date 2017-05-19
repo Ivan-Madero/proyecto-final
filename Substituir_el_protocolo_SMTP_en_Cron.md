@@ -189,3 +189,7 @@ may 15 09:34:01 f25 CROND[1484]: (root) CMDOUT (hola, soy root desde f25)
 may 15 09:36:01 serverf25 CROND[1855]: (root) CMD (/usr/bin/echo "hola, soy $USER desde $HOSTNAME")
 may 15 09:36:01 serverf25 CROND[1854]: (root) CMDOUT (hola, soy root desde serverf25)
 ```
+
+---
+
+[Volver a la tabla de contenidos](README.md#tabla-de-contenidos)
