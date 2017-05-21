@@ -9,7 +9,7 @@
 Veremos el funcionamiento de las herramientas `Crond` y `atd`, cómo
 cambiar la configuración de los LOGS por `SMTP` a `journal` 
 centralizando estos en un solo host de la red. Y finalmente estudiaremos
-si `Systemd` puede sustituir completamente su uso, y en tal caso, cómo 
+sí `Systemd` puede sustituir completamente su uso, y en tal caso, cómo 
 hacerlo. 
 
 Para ello documentaré la información de uso de `Cron` y `atd`, donde
