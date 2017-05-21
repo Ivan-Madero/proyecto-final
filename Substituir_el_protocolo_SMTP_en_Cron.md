@@ -116,7 +116,7 @@ el servicio via http debemos sustituir el parámetro por defecto
 	[Install]
 	Also=systemd-journal-remote.socket
 	```
-5. Crear la carpeta definida en parámetro `--output=` y cambair su 
+5. Crear la carpeta definida en parámetro `--output=` y cambiar su 
 propietario por **systemd-journal-remote**. 
 `# mkdir /var/log/journal/remote ; 
 chown systemd-journal-remote /var/log/journal/remote`.
