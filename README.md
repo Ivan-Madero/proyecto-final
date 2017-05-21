@@ -14,7 +14,7 @@ hacerlo.
 
 Para ello documentaré la información de uso de `Cron` y `atd`, donde
 se almacenan los archivos de configuración, la sintaxis para su uso y
-qué configuración es necesaria para substiruir el protocolo `SMTP` por 
+qué configuración es necesaria para sustituir el protocolo `SMTP` por 
 `journal`, y centralizando los **logs** en un solo host de la red.
 
 Para poder llevar acabo la conversión de `Cron` a `Systemd` deberé 
