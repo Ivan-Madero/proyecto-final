@@ -64,7 +64,7 @@ ordenadores debemos seguir los siguientes pasos:
 systemd-journal-remote`.
 2. Habilitar el puerto de escucha: `# systemctl enable 
 systemd-journal-remote.socket`.
-3. Revisar la configración del puerto de escucha. Podemos encontrar el 
+3. Revisar la configuración del puerto de escucha. Podemos encontrar el 
 fichero en: **/lib/systemd/system/systemd-journal-remote.socket**. El 
 puerto por defecto es el 19532.
 	```
